@@ -42,7 +42,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors mono text-xs"
             >
-              Desenvolvido por Seu Nome
+              Desenvolvido por Wendel Campos Bezerra
             </a>
           </div>
 
