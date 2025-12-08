@@ -232,7 +232,7 @@ export function ProjectsSection() {
           className="flex items-center gap-4 mb-16"
         >
           <span className="mono text-primary text-sm">02.</span>
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground tracking-tight">
             Projetos Recentes
           </h2>
           <div className="h-px flex-1 bg-border max-w-xs" />

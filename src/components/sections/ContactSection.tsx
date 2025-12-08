@@ -19,7 +19,7 @@ export function ContactSection() {
         >
           {/* Section Header */}
           <span className="mono text-primary text-sm mb-4 block">04. E agora?</span>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6 tracking-tight">
             Vamos Conversar?
           </h2>
 

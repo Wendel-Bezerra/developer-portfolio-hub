@@ -31,9 +31,9 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold text-foreground mb-4"
+            className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-foreground mb-4 tracking-tight"
           >
-            Seu Nome.
+            Wendel Campos Bezerra.
           </motion.h1>
 
           {/* Tagline */}
@@ -41,7 +41,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-6xl font-bold text-muted-foreground mb-6"
+            className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-muted-foreground mb-6"
           >
             Transformo ideias em{' '}
             <span className="text-gradient">código funcional.</span>
