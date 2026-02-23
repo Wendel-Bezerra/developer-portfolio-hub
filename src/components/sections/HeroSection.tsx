@@ -1,10 +1,16 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useI18n } from '@/i18n/I18nProvider';
+import ShinyText from '@/components/ui/ShinyText';
 
 export function HeroSection() {
+  const { lang, t } = useI18n();
+  const contactPath = lang === 'en' ? '/en/contact' : '/contato';
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient effect */}
       <div 
         className="absolute inset-0 opacity-40"
@@ -23,7 +29,7 @@ export function HeroSection() {
             transition={{ duration: 0.5 }}
             className="mono text-primary text-sm md:text-base mb-6"
           >
-            Olá, meu nome é
+            {t('hero.hello')}
           </motion.p>
 
           {/* Name */}
@@ -33,7 +39,14 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-foreground mb-4 tracking-tight"
           >
-            Wendel Campos Bezerra.
+            <ShinyText
+              text="Wendel Campos Bezerra."
+              color="#cfcfcf"
+              shineColor="#ffffff"
+              speed={2}
+              spread={120}
+              className="text-foreground"
+            />
           </motion.h1>
 
           {/* Tagline */}
@@ -43,8 +56,8 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-muted-foreground mb-6"
           >
-            Transformo ideias em{' '}
-            <span className="text-gradient">código funcional.</span>
+            {t('hero.taglinePrefix')}{' '}
+            <span className="text-gradient">{t('hero.taglineHighlight')}</span>
           </motion.h2>
 
           {/* Description */}
@@ -54,11 +67,11 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-muted-foreground text-base md:text-lg max-w-xl mb-10 leading-relaxed"
           >
-            Desenvolvedor Full Stack com experiência em construir aplicações web escaláveis. 
-            Atualmente focado em criar experiências digitais que combinam{' '}
-            <span className="text-foreground">performance</span>,{' '}
-            <span className="text-foreground">usabilidade</span> e{' '}
-            <span className="text-foreground">código limpo</span>.
+            {t('hero.desc1')}{' '}
+            {t('hero.desc2Prefix')}{' '}
+            <span className="text-foreground">{t('hero.perf')}</span>,{' '}
+            <span className="text-foreground">{t('hero.ux')}</span>{' '}
+            {lang === 'en' ? 'and' : 'e'} <span className="text-foreground">{t('hero.clean')}</span>.
           </motion.p>
 
           {/* CTAs */}
@@ -70,13 +83,13 @@ export function HeroSection() {
           >
             <Button variant="hero" size="lg" asChild>
               <a href="#projects">
-                Ver Projetos
+                {t('hero.ctaProjects')}
               </a>
             </Button>
             <Button variant="hero-outline" size="lg" asChild>
-              <a href="#contact">
-                Entre em Contato
-              </a>
+              <Link to={contactPath}>
+                {t('hero.ctaContact')}
+              </Link>
             </Button>
           </motion.div>
 
@@ -88,7 +101,7 @@ export function HeroSection() {
             className="flex items-center gap-4"
           >
             <a
-              href="https://github.com"
+              href="https://github.com/Wendel-Bezerra"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -97,7 +110,7 @@ export function HeroSection() {
               <Github size={22} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/wendelcamposbezerra/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -106,7 +119,7 @@ export function HeroSection() {
               <Linkedin size={22} />
             </a>
             <a
-              href="mailto:email@example.com"
+              href="mailto:Wendel.2929@gmail.com"
               className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="Email"
             >

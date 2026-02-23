@@ -1,11 +1,15 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Mail, Github, Linkedin, Send } from 'lucide-react';
+import { Mail, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useI18n } from '@/i18n/I18nProvider';
 
 export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { lang, t } = useI18n();
+  const contactPath = lang === 'en' ? '/en/contact' : '/contato';
 
   return (
     <section id="contact" className="py-24 md:py-32">
@@ -18,29 +22,27 @@ export function ContactSection() {
           className="max-w-2xl mx-auto text-center"
         >
           {/* Section Header */}
-          <span className="mono text-primary text-sm mb-4 block">04. E agora?</span>
+          <span className="mono text-primary text-sm mb-4 block">04. {t('contactSection.kicker')}</span>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-6 tracking-tight">
-            Vamos Conversar?
+            {t('contactSection.title')}
           </h2>
 
           <p className="text-muted-foreground text-lg leading-relaxed mb-10">
-            Estou sempre aberto a novas oportunidades, projetos interessantes ou 
-            simplesmente trocar uma ideia sobre tecnologia. Minha inbox está sempre 
-            aberta — seja para uma proposta de trabalho ou apenas para dizer "oi"!
+            {t('contactSection.description')}
           </p>
 
           {/* CTA Button */}
           <Button variant="hero" size="xl" asChild className="mb-12">
-            <a href="mailto:seuemail@example.com">
+            <Link to={contactPath}>
               <Mail size={20} />
-              Enviar Email
-            </a>
+              {t('contactSection.cta')}
+            </Link>
           </Button>
 
           {/* Social Links */}
           <div className="flex justify-center gap-6">
             <a
-              href="https://github.com"
+              href="https://github.com/Wendel-Bezerra"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
@@ -49,7 +51,7 @@ export function ContactSection() {
               <span className="text-sm link-underline">GitHub</span>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/wendelcamposbezerra/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"

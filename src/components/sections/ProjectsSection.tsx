@@ -2,6 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ExternalLink, Github, Folder } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useI18n } from '@/i18n/I18nProvider';
 
 interface Project {
   title: string;
@@ -14,65 +15,13 @@ interface Project {
   featured: boolean;
 }
 
-const projects: Project[] = [
-  {
-    title: 'E-commerce Platform',
-    description: 'Plataforma completa de e-commerce com sistema de pagamentos integrado, gestão de estoque e dashboard administrativo.',
-    impact: 'Reduziu em 40% o tempo de processamento de pedidos',
-    role: 'Desenvolvimento full stack, arquitetura do banco de dados e integração com gateway de pagamento.',
-    technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe', 'Docker'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://example.com',
-    featured: true,
-  },
-  {
-    title: 'API de Gestão Financeira',
-    description: 'API RESTful para gerenciamento de finanças pessoais com autenticação JWT, relatórios automatizados e notificações.',
-    impact: 'Processando +10.000 transações diárias',
-    role: 'Arquitetura de microserviços, implementação de testes e CI/CD.',
-    technologies: ['Java', 'Spring Boot', 'MongoDB', 'Redis', 'AWS'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://example.com',
-    featured: true,
-  },
-  {
-    title: 'Dashboard Analytics',
-    description: 'Dashboard interativo para visualização de dados em tempo real com gráficos dinâmicos e filtros avançados.',
-    impact: 'Melhorou tomada de decisão em 60%',
-    role: 'Frontend development, integração com WebSockets e otimização de performance.',
-    technologies: ['React', 'TypeScript', 'D3.js', 'WebSocket', 'TailwindCSS'],
-    githubUrl: 'https://github.com',
-    featured: true,
-  },
-];
-
-const otherProjects: Omit<Project, 'impact' | 'role' | 'featured'>[] = [
-  {
-    title: 'CLI Task Manager',
-    description: 'Ferramenta de linha de comando para gerenciamento de tarefas com sincronização cloud.',
-    technologies: ['Python', 'Click', 'SQLite'],
-    githubUrl: 'https://github.com',
-  },
-  {
-    title: 'Weather App',
-    description: 'Aplicação de previsão do tempo com geolocalização e notificações.',
-    technologies: ['React Native', 'TypeScript', 'API REST'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://example.com',
-  },
-  {
-    title: 'Blog Platform',
-    description: 'Plataforma de blog com editor markdown e sistema de comentários.',
-    technologies: ['Next.js', 'Prisma', 'PostgreSQL'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://example.com',
-  },
-];
+type OtherProject = Omit<Project, 'impact' | 'role' | 'featured'>;
 
 function FeaturedProject({ project, index }: { project: Project; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const isEven = index % 2 === 0;
+  const { t } = useI18n();
 
   return (
     <motion.div
@@ -85,16 +34,51 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
       }`}
     >
       {/* Project Image/Preview */}
-      <div
-        className={`md:col-span-7 relative aspect-video rounded-lg overflow-hidden bg-secondary group ${
+      <a
+        href={project.liveUrl || project.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`md:col-span-7 relative aspect-video rounded-lg overflow-hidden bg-secondary group block ${
           isEven ? 'md:col-start-1' : 'md:col-start-6'
         }`}
       >
-        <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-300" />
-        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground mono text-sm">
-          Preview do Projeto
-        </div>
-      </div>
+        {project.liveUrl ? (
+          <>
+            <img
+              src={`https://image.thum.io/get/width/1280/crop/720/${project.liveUrl}`}
+              alt={`Preview de ${project.title}`}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const fallback = target.nextElementSibling as HTMLElement;
+                if (fallback) fallback.classList.remove('hidden');
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 flex flex-col items-center justify-center p-6 text-center hidden group-hover:bg-primary/30 transition-colors duration-300">
+              <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
+              <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
+              <div className="flex items-center gap-2 text-primary font-medium">
+                <ExternalLink size={18} />
+                <span>{t('projects.clickToVisit')}</span>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-end justify-center pb-4">
+              <div className="bg-background/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-medium text-foreground flex items-center gap-2">
+                <ExternalLink size={16} />
+                {t('projects.visitSite')}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-300" />
+            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground mono text-sm">
+              {t('projects.preview')}
+            </div>
+          </>
+        )}
+      </a>
 
       {/* Project Content */}
       <div
@@ -102,7 +86,7 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
           isEven ? 'md:col-start-6 md:text-right' : 'md:col-start-1'
         }`}
       >
-        <p className="mono text-primary text-xs mb-2">Projeto em Destaque</p>
+        <p className="mono text-primary text-sm mb-3">{t('projects.featured')}</p>
         <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4">
           {project.title}
         </h3>
@@ -112,11 +96,11 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
           <p className="text-muted-foreground text-sm leading-relaxed mb-3">
             {project.description}
           </p>
-          <p className="text-primary text-sm font-medium mono">
-            ⚡ {project.impact}
+          <p className="text-foreground text-sm font-medium">
+            {project.impact}
           </p>
           <p className="text-muted-foreground text-xs mt-2 italic">
-            Meu papel: {project.role}
+            {t('projects.role')} {project.role}
           </p>
         </div>
 
@@ -136,7 +120,7 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors"
-            aria-label="Ver código no GitHub"
+            aria-label={t('projects.ariaViewCode')}
           >
             <Github size={20} />
           </a>
@@ -146,7 +130,7 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Ver demo ao vivo"
+              aria-label={t('projects.ariaViewLive')}
             >
               <ExternalLink size={20} />
             </a>
@@ -160,6 +144,7 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
 function OtherProjectCard({ project, index }: { project: typeof otherProjects[0]; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { t } = useI18n();
 
   return (
     <motion.div
@@ -178,7 +163,7 @@ function OtherProjectCard({ project, index }: { project: typeof otherProjects[0]
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors"
-            aria-label="Ver código"
+            aria-label={t('projects.ariaViewCodeShort')}
           >
             <Github size={18} />
           </a>
@@ -188,7 +173,7 @@ function OtherProjectCard({ project, index }: { project: typeof otherProjects[0]
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Ver demo"
+              aria-label={t('projects.ariaViewDemoShort')}
             >
               <ExternalLink size={18} />
             </a>
@@ -219,6 +204,45 @@ function OtherProjectCard({ project, index }: { project: typeof otherProjects[0]
 export function ProjectsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useI18n();
+
+  const projects: Project[] = [
+    {
+      title: t('projects.items.ajb.title'),
+      description: t('projects.items.ajb.description'),
+      impact: t('projects.items.ajb.impact'),
+      role: t('projects.items.ajb.role'),
+      technologies: ['React', 'Node.js'],
+      githubUrl: 'https://github.com',
+      liveUrl: 'https://www.ajbadvocacia.com.br/',
+      featured: true,
+    },
+    {
+      title: t('projects.items.facilize.title'),
+      description: t('projects.items.facilize.description'),
+      impact: t('projects.items.facilize.impact'),
+      role: t('projects.items.facilize.role'),
+      technologies: ['React', 'Node.js'],
+      githubUrl: 'https://github.com',
+      liveUrl: 'https://www.facilize.com.br/',
+      featured: true,
+    },
+  ];
+
+  const otherProjects: OtherProject[] = [
+    {
+      title: t('projects.items.travelTracker.title'),
+      description: t('projects.items.travelTracker.description'),
+      technologies: ['React', 'Node.js', 'Map APIs'],
+      githubUrl: 'https://github.com/Wendel-Bezerra/wanderlust-map',
+    },
+    {
+      title: t('projects.items.betTracker.title'),
+      description: t('projects.items.betTracker.description'),
+      technologies: ['React', 'Node.js', 'TypeScript'],
+      githubUrl: 'https://github.com/Wendel-Bezerra/bet-tracker',
+    },
+  ];
 
   return (
     <section id="projects" className="py-24 md:py-32">
@@ -231,9 +255,9 @@ export function ProjectsSection() {
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-16"
         >
-          <span className="mono text-primary text-sm">02.</span>
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground tracking-tight">
-            Projetos Recentes
+          <span className="mono text-primary text-base">03.</span>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground tracking-tight">
+            {t('projects.title')}
           </h2>
           <div className="h-px flex-1 bg-border max-w-xs" />
         </motion.div>
@@ -248,7 +272,7 @@ export function ProjectsSection() {
         {/* Other Projects */}
         <div className="text-center mb-12">
           <h3 className="text-xl font-semibold text-foreground">
-            Outros Projetos Relevantes
+            {t('projects.otherTitle')}
           </h3>
         </div>
 
@@ -261,8 +285,8 @@ export function ProjectsSection() {
         {/* CTA */}
         <div className="text-center mt-12">
           <Button variant="outline" size="lg" asChild>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-              Ver mais no GitHub
+            <a href="https://github.com/Wendel-Bezerra" target="_blank" rel="noopener noreferrer">
+              {t('projects.moreOnGithub')}
             </a>
           </Button>
         </div>
