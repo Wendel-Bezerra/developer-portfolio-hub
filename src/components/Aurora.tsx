@@ -169,7 +169,8 @@ export default function Aurora(props: AuroraProps) {
         uTime: { value: 0 },
         uAmplitude: { value: initialAmplitude },
         uColorStops: { value: colorStopsArray },
-        uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
+        // Evita leituras síncronas de layout (ex: offsetWidth) no caminho crítico.
+        uResolution: { value: [1, 1] },
         uBlend: { value: initialBlend },
       },
     })
@@ -177,14 +178,38 @@ export default function Aurora(props: AuroraProps) {
     const mesh = new Mesh(gl, { geometry, program })
     ctn.appendChild(gl.canvas)
 
-    const resize = () => {
-      const width = ctn.offsetWidth
-      const height = ctn.offsetHeight
-      renderer.setSize(width, height)
-      program.uniforms.uResolution.value = [width, height]
+    let hasSize = false
+    let resizeRaf = 0
+    let nextSize: { w: number; h: number } | null = null
+
+    const commitResize = () => {
+      resizeRaf = 0
+      if (!nextSize) return
+      const { w, h } = nextSize
+      nextSize = null
+
+      renderer.setSize(w, h)
+      program.uniforms.uResolution.value = [w, h]
+      hasSize = true
     }
 
-    window.addEventListener('resize', resize)
+    const queueResize = (w: number, h: number) => {
+      const width = Math.max(1, Math.floor(w))
+      const height = Math.max(1, Math.floor(h))
+
+      const current = program.uniforms.uResolution.value as number[]
+      if (current[0] === width && current[1] === height) return
+
+      nextSize = { w: width, h: height }
+      if (!resizeRaf) resizeRaf = requestAnimationFrame(commitResize)
+    }
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[entries.length - 1]
+      if (!entry) return
+      queueResize(entry.contentRect.width, entry.contentRect.height)
+    })
+    resizeObserver.observe(ctn)
 
     let animateId = 0
     const update = (t: number) => {
@@ -201,15 +226,16 @@ export default function Aurora(props: AuroraProps) {
         return [c.r, c.g, c.b]
       })
 
+      if (!hasSize) return
       renderer.render({ scene: mesh })
     }
 
     animateId = requestAnimationFrame(update)
-    resize()
 
     return () => {
       cancelAnimationFrame(animateId)
-      window.removeEventListener('resize', resize)
+      resizeObserver.disconnect()
+      if (resizeRaf) cancelAnimationFrame(resizeRaf)
 
       if (gl.canvas.parentNode === ctn) ctn.removeChild(gl.canvas)
       gl.getExtension('WEBGL_lose_context')?.loseContext()
