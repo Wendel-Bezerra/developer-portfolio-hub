@@ -1,0 +1,55 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="180" y1="420" x2="1020" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22C55E" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#60A5FA" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" rx="48" fill="url(#bg)"/>
+
+  <circle cx="980" cy="160" r="180" fill="url(#accent)" filter="url(#blur)" opacity="0.65"/>
+  <circle cx="240" cy="500" r="220" fill="url(#accent)" filter="url(#blur)" opacity="0.35"/>
+
+  <g opacity="0.12" stroke="#FFFFFF">
+    <path d="M140 120H1060" />
+    <path d="M140 170H1060" />
+    <path d="M140 220H1060" />
+    <path d="M140 270H1060" />
+    <path d="M140 320H1060" />
+    <path d="M140 370H1060" />
+    <path d="M140 420H1060" />
+    <path d="M140 470H1060" />
+    <path d="M140 520H1060" />
+  </g>
+
+  <g>
+    <rect x="140" y="130" width="920" height="370" rx="28" fill="#0B1220" opacity="0.35" stroke="#FFFFFF" stroke-opacity="0.12"/>
+    <rect x="170" y="160" width="220" height="18" rx="9" fill="#FFFFFF" opacity="0.16"/>
+    <rect x="170" y="200" width="520" height="28" rx="14" fill="#FFFFFF" opacity="0.14"/>
+    <rect x="170" y="248" width="640" height="18" rx="9" fill="#FFFFFF" opacity="0.12"/>
+    <rect x="170" y="280" width="600" height="18" rx="9" fill="#FFFFFF" opacity="0.10"/>
+
+    <rect x="170" y="350" width="300" height="110" rx="18" fill="#FFFFFF" opacity="0.10"/>
+    <rect x="490" y="350" width="300" height="110" rx="18" fill="#FFFFFF" opacity="0.10"/>
+    <rect x="810" y="350" width="220" height="110" rx="18" fill="#FFFFFF" opacity="0.10"/>
+  </g>
+
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" fill="#FFFFFF">
+    <text x="170" y="235" font-size="56" font-weight="700" letter-spacing="-0.02em">Wendel Campos Bezerra</text>
+    <text x="170" y="290" font-size="30" font-weight="500" opacity="0.88">Desenvolvedor Full Stack &#8226; Java &#8226; Node.js &#8226; React &#8226; Python</text>
+    <text x="170" y="450" font-size="22" font-weight="500" opacity="0.72">Portf&#243;lio &#8226; Projetos &#8226; Contato</text>
+  </g>
+
+  <g>
+    <rect x="170" y="318" width="210" height="10" rx="5" fill="url(#accent)" opacity="0.9"/>
+  </g>
+</svg>
