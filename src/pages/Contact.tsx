@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { ArrowLeft, Mail, Send } from "lucide-react";
 
@@ -21,13 +21,31 @@ type ContactValues = {
   message: string;
 };
 
+type TurnstileApi = {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      callback: (token: string) => void;
+      "expired-callback"?: () => void;
+      "error-callback"?: () => void;
+      theme?: "light" | "dark" | "auto";
+    },
+  ) => string;
+  reset: (widgetId?: string) => void;
+};
+
 export default function Contact() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
   const { lang, t } = useI18n();
   const homeBase = lang === "en" ? "/en" : lang === "es" ? "/es" : "/";
   const honeypotRef = useRef("");
   const formStartedAtRef = useRef(Date.now());
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
   const contactSchema = z.object({
     name: z
@@ -58,7 +76,69 @@ export default function Contact() {
     },
   });
 
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) return;
+
+    const renderWidget = () => {
+      const turnstile = (
+        window as Window & { turnstile?: TurnstileApi }
+      ).turnstile;
+      if (!turnstile || !turnstileContainerRef.current || turnstileWidgetIdRef.current) return;
+
+      turnstileWidgetIdRef.current = turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token: string) => {
+          setCaptchaToken(token);
+        },
+        "expired-callback": () => {
+          setCaptchaToken("");
+        },
+        "error-callback": () => {
+          setCaptchaToken("");
+        },
+        theme: "auto",
+      });
+    };
+
+    const scriptId = "cf-turnstile-script";
+    const existingScript = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (existingScript) {
+      if ((window as Window & { turnstile?: TurnstileApi }).turnstile) {
+        renderWidget();
+      } else {
+        existingScript.addEventListener("load", renderWidget, { once: true });
+      }
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    script.async = true;
+    script.defer = true;
+    script.addEventListener("load", renderWidget, { once: true });
+    document.head.appendChild(script);
+  }, [turnstileSiteKey]);
+
   async function onSubmit(values: ContactValues) {
+    if (!turnstileSiteKey) {
+      toast({
+        variant: "destructive",
+        title: t("contactPage.toastFailTitle"),
+        description: "Captcha não configurado. Defina VITE_TURNSTILE_SITE_KEY no ambiente.",
+      });
+      return;
+    }
+
+    if (!captchaToken) {
+      toast({
+        variant: "destructive",
+        title: t("contactPage.toastFailTitle"),
+        description: "Confirme o captcha antes de enviar.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const res = await fetch("/api/contact", {
@@ -68,6 +148,7 @@ export default function Contact() {
           ...values,
           website: honeypotRef.current,
           formStartedAt: formStartedAtRef.current,
+          captchaToken,
         }),
       });
 
@@ -83,7 +164,12 @@ export default function Contact() {
       });
       honeypotRef.current = "";
       formStartedAtRef.current = Date.now();
+      setCaptchaToken("");
       form.reset();
+      const turnstile = (window as Window & { turnstile?: TurnstileApi }).turnstile;
+      if (turnstile && turnstileWidgetIdRef.current) {
+        turnstile.reset(turnstileWidgetIdRef.current);
+      }
     } catch (err) {
       toast({
         variant: "destructive",
@@ -138,6 +224,9 @@ export default function Contact() {
                     }}
                   />
                   <input type="hidden" name="formStartedAt" value={formStartedAtRef.current} readOnly />
+                  <div className="flex justify-center sm:justify-start">
+                    <div ref={turnstileContainerRef} />
+                  </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormField
@@ -215,7 +304,12 @@ export default function Contact() {
                       Wendel.2929@gmail.com
                     </a>
 
-                    <Button type="submit" variant="hero" disabled={isSubmitting} className="sm:w-auto w-full">
+                    <Button
+                      type="submit"
+                      variant="hero"
+                      disabled={isSubmitting || !captchaToken}
+                      className="sm:w-auto w-full"
+                    >
                       <Send size={18} />
                       {isSubmitting ? t("contactPage.sending") : t("contactPage.send")}
                     </Button>

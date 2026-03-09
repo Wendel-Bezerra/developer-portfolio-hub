@@ -14,6 +14,7 @@ const contactSchema = z.object({
   message: z.string().trim().min(10, "Escreva uma mensagem um pouco maior.").max(5000, "Mensagem muito longa."),
   website: z.string().max(0).optional().or(z.literal("")),
   formStartedAt: z.number().int().positive(),
+  captchaToken: z.string().trim().min(10, "Captcha inválido."),
 });
 
 const RATE_WINDOW_MS = Number(process.env.CONTACT_RATE_WINDOW_MS || "600000");
@@ -21,6 +22,7 @@ const RATE_MAX_REQUESTS = Number(process.env.CONTACT_RATE_MAX || "3");
 const MIN_FILL_TIME_MS = Number(process.env.CONTACT_MIN_FILL_MS || "3000");
 const MAX_FILL_TIME_MS = Number(process.env.CONTACT_MAX_FILL_MS || "7200000");
 const requestsByIp = new Map();
+let smtpTransporter;
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -29,18 +31,24 @@ function requireEnv(name) {
 }
 
 function buildTransporter() {
+  if (smtpTransporter) return smtpTransporter;
+
   const host = requireEnv("SMTP_HOST");
   const port = Number(process.env.SMTP_PORT || "587");
   const user = requireEnv("SMTP_USER");
   const pass = requireEnv("SMTP_PASS");
   const secure = String(process.env.SMTP_SECURE || "").toLowerCase() === "true" || port === 465;
 
-  return nodemailer.createTransport({
+  smtpTransporter = nodemailer.createTransport({
     host,
     port,
     secure,
     auth: { user, pass },
+    pool: true,
+    maxConnections: 1,
+    maxMessages: 20,
   });
+  return smtpTransporter;
 }
 
 function getClientIp(req) {
@@ -64,6 +72,29 @@ function isRateLimited(ip) {
   return false;
 }
 
+async function verifyTurnstileToken(token, clientIp) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    throw new Error("Variável de ambiente ausente: TURNSTILE_SECRET_KEY");
+  }
+
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+    remoteip: clientIp,
+  });
+
+  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+
+  if (!response.ok) return false;
+  const result = await response.json();
+  return Boolean(result?.success);
+}
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
@@ -79,7 +110,7 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    const { name, email, subject, message, website, formStartedAt } = parsed.data;
+    const { name, email, subject, message, website, formStartedAt, captchaToken } = parsed.data;
     const clientIp = getClientIp(req);
 
     if (website?.trim()) {
@@ -98,6 +129,14 @@ app.post("/api/contact", async (req, res) => {
       return res.status(429).json({
         ok: false,
         message: "Muitas tentativas. Aguarde um pouco antes de enviar novamente.",
+      });
+    }
+
+    const isCaptchaValid = await verifyTurnstileToken(captchaToken, clientIp);
+    if (!isCaptchaValid) {
+      return res.status(400).json({
+        ok: false,
+        message: "Falha na validação do captcha. Tente novamente.",
       });
     }
 
@@ -127,6 +166,21 @@ app.post("/api/contact", async (req, res) => {
     return res.json({ ok: true });
   } catch (err) {
     console.error(err);
+    const isAuthRateLimit =
+      typeof err === "object" &&
+      err !== null &&
+      "code" in err &&
+      err.code === "EAUTH" &&
+      "responseCode" in err &&
+      err.responseCode === 454;
+
+    if (isAuthRateLimit) {
+      return res.status(503).json({
+        ok: false,
+        message: "Serviço de email temporariamente indisponível. Tente novamente em alguns minutos.",
+      });
+    }
+
     const details =
       process.env.NODE_ENV !== "production"
         ? err instanceof Error
