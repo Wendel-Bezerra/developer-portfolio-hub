@@ -12,7 +12,15 @@ const contactSchema = z.object({
   email: z.string().trim().email("Email inválido.").max(200, "Email muito longo."),
   subject: z.string().trim().max(150, "Assunto muito longo.").optional().or(z.literal("")),
   message: z.string().trim().min(10, "Escreva uma mensagem um pouco maior.").max(5000, "Mensagem muito longa."),
+  website: z.string().max(0).optional().or(z.literal("")),
+  formStartedAt: z.number().int().positive(),
 });
+
+const RATE_WINDOW_MS = Number(process.env.CONTACT_RATE_WINDOW_MS || "600000");
+const RATE_MAX_REQUESTS = Number(process.env.CONTACT_RATE_MAX || "3");
+const MIN_FILL_TIME_MS = Number(process.env.CONTACT_MIN_FILL_MS || "3000");
+const MAX_FILL_TIME_MS = Number(process.env.CONTACT_MAX_FILL_MS || "7200000");
+const requestsByIp = new Map();
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -35,6 +43,27 @@ function buildTransporter() {
   });
 }
 
+function getClientIp(req) {
+  const forwardedFor = req.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string") return forwardedFor.split(",")[0]?.trim() || "unknown";
+  return req.ip || "unknown";
+}
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entries = requestsByIp.get(ip) ?? [];
+  const recentEntries = entries.filter((time) => now - time < RATE_WINDOW_MS);
+
+  if (recentEntries.length >= RATE_MAX_REQUESTS) {
+    requestsByIp.set(ip, recentEntries);
+    return true;
+  }
+
+  recentEntries.push(now);
+  requestsByIp.set(ip, recentEntries);
+  return false;
+}
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
@@ -50,7 +79,27 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    const { name, email, subject, message } = parsed.data;
+    const { name, email, subject, message, website, formStartedAt } = parsed.data;
+    const clientIp = getClientIp(req);
+
+    if (website?.trim()) {
+      return res.json({ ok: true });
+    }
+
+    const fillTimeMs = Date.now() - formStartedAt;
+    if (fillTimeMs < MIN_FILL_TIME_MS || fillTimeMs > MAX_FILL_TIME_MS) {
+      return res.status(400).json({
+        ok: false,
+        message: "Envio inválido. Atualize a página e tente novamente.",
+      });
+    }
+
+    if (isRateLimited(clientIp)) {
+      return res.status(429).json({
+        ok: false,
+        message: "Muitas tentativas. Aguarde um pouco antes de enviar novamente.",
+      });
+    }
 
     const to = requireEnv("MAIL_TO");
     const from = process.env.MAIL_FROM || `Portfólio <${requireEnv("SMTP_USER")}>`;

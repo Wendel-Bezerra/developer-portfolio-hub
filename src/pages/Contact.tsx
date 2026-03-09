@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { z } from "zod";
 import { ArrowLeft, Mail, Send } from "lucide-react";
 
@@ -26,6 +26,8 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { lang, t } = useI18n();
   const homeBase = lang === "en" ? "/en" : lang === "es" ? "/es" : "/";
+  const honeypotRef = useRef("");
+  const formStartedAtRef = useRef(Date.now());
 
   const contactSchema = z.object({
     name: z
@@ -62,7 +64,11 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          website: honeypotRef.current,
+          formStartedAt: formStartedAtRef.current,
+        }),
       });
 
       if (!res.ok) {
@@ -75,6 +81,8 @@ export default function Contact() {
         title: t("contactPage.toastSentTitle"),
         description: t("contactPage.toastSentDesc"),
       });
+      honeypotRef.current = "";
+      formStartedAtRef.current = Date.now();
       form.reset();
     } catch (err) {
       toast({
@@ -117,6 +125,20 @@ export default function Contact() {
             <div className="card-gradient rounded-lg p-6 md:p-8 shadow-lg">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <input
+                    type="text"
+                    name="website"
+                    autoComplete="off"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="hidden"
+                    value={honeypotRef.current}
+                    onChange={(event) => {
+                      honeypotRef.current = event.target.value;
+                    }}
+                  />
+                  <input type="hidden" name="formStartedAt" value={formStartedAtRef.current} readOnly />
+
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
