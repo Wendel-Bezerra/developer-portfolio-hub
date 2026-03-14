@@ -14,13 +14,14 @@ const contactSchema = z.object({
   message: z.string().trim().min(10, "Escreva uma mensagem um pouco maior.").max(5000, "Mensagem muito longa."),
   website: z.string().max(0).optional().or(z.literal("")),
   formStartedAt: z.number().int().positive(),
-  captchaToken: z.string().trim().min(10, "Captcha inválido."),
+  captchaToken: z.string().trim().min(10, "Captcha inválido.").optional(),
 });
 
 const RATE_WINDOW_MS = Number(process.env.CONTACT_RATE_WINDOW_MS || "600000");
 const RATE_MAX_REQUESTS = Number(process.env.CONTACT_RATE_MAX || "3");
 const MIN_FILL_TIME_MS = Number(process.env.CONTACT_MIN_FILL_MS || "3000");
 const MAX_FILL_TIME_MS = Number(process.env.CONTACT_MAX_FILL_MS || "7200000");
+const TURNSTILE_ENABLED = String(process.env.TURNSTILE_ENABLED ?? "true").toLowerCase() === "true";
 const requestsByIp = new Map();
 let smtpTransporter;
 
@@ -84,15 +85,19 @@ async function verifyTurnstileToken(token, clientIp) {
     remoteip: clientIp,
   });
 
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
-  });
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
 
-  if (!response.ok) return false;
-  const result = await response.json();
-  return Boolean(result?.success);
+    if (!response.ok) return "unavailable";
+    const result = await response.json();
+    return result?.success ? "valid" : "invalid";
+  } catch {
+    return "unavailable";
+  }
 }
 
 app.get("/api/health", (_req, res) => {
@@ -132,12 +137,28 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    const isCaptchaValid = await verifyTurnstileToken(captchaToken, clientIp);
-    if (!isCaptchaValid) {
-      return res.status(400).json({
-        ok: false,
-        message: "Falha na validação do captcha. Tente novamente.",
-      });
+    if (TURNSTILE_ENABLED) {
+      if (!captchaToken) {
+        return res.status(400).json({
+          ok: false,
+          message: "Captcha obrigatório. Tente novamente.",
+        });
+      }
+
+      const captchaStatus = await verifyTurnstileToken(captchaToken, clientIp);
+      if (captchaStatus === "unavailable") {
+        return res.status(503).json({
+          ok: false,
+          message: "Serviço de captcha indisponível no momento. Tente novamente em instantes.",
+        });
+      }
+
+      if (captchaStatus !== "valid") {
+        return res.status(400).json({
+          ok: false,
+          message: "Falha na validação do captcha. Tente novamente.",
+        });
+      }
     }
 
     const to = requireEnv("MAIL_TO");

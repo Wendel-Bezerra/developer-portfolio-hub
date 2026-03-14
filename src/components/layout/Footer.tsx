@@ -5,7 +5,7 @@ import { useI18n } from '@/i18n/I18nProvider';
 export function Footer() {
   const { lang, t } = useI18n();
   const year = new Date().getFullYear();
-  const contactPath = lang === 'en' ? '/en/contact' : '/contato';
+  const contactPath = lang === "en" ? "/en/contact" : lang === "es" ? "/es/contact" : "/contato";
 
   return (
     <footer className="py-8 border-t border-border">

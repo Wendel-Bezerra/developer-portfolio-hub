@@ -39,12 +39,14 @@ export default function Contact() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaLoadError, setCaptchaLoadError] = useState(false);
   const { lang, t } = useI18n();
   const homeBase = lang === "en" ? "/en" : lang === "es" ? "/es" : "/";
   const honeypotRef = useRef("");
   const formStartedAtRef = useRef(Date.now());
   const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
   const turnstileWidgetIdRef = useRef<string | null>(null);
+  const turnstileEnabled = String(import.meta.env.VITE_TURNSTILE_ENABLED ?? "true").toLowerCase() === "true";
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
   const contactSchema = z.object({
@@ -77,7 +79,7 @@ export default function Contact() {
   });
 
   useEffect(() => {
-    if (!turnstileSiteKey || !turnstileContainerRef.current) return;
+    if (!turnstileEnabled || !turnstileSiteKey || !turnstileContainerRef.current) return;
 
     const renderWidget = () => {
       const turnstile = (
@@ -88,16 +90,23 @@ export default function Contact() {
       turnstileWidgetIdRef.current = turnstile.render(turnstileContainerRef.current, {
         sitekey: turnstileSiteKey,
         callback: (token: string) => {
+          setCaptchaLoadError(false);
           setCaptchaToken(token);
         },
         "expired-callback": () => {
           setCaptchaToken("");
         },
         "error-callback": () => {
+          setCaptchaLoadError(true);
           setCaptchaToken("");
         },
         theme: "auto",
       });
+    };
+
+    const handleScriptError = () => {
+      setCaptchaLoadError(true);
+      setCaptchaToken("");
     };
 
     const scriptId = "cf-turnstile-script";
@@ -107,6 +116,7 @@ export default function Contact() {
         renderWidget();
       } else {
         existingScript.addEventListener("load", renderWidget, { once: true });
+        existingScript.addEventListener("error", handleScriptError, { once: true });
       }
       return;
     }
@@ -117,11 +127,12 @@ export default function Contact() {
     script.async = true;
     script.defer = true;
     script.addEventListener("load", renderWidget, { once: true });
+    script.addEventListener("error", handleScriptError, { once: true });
     document.head.appendChild(script);
-  }, [turnstileSiteKey]);
+  }, [turnstileEnabled, turnstileSiteKey]);
 
   async function onSubmit(values: ContactValues) {
-    if (!turnstileSiteKey) {
+    if (turnstileEnabled && !turnstileSiteKey) {
       toast({
         variant: "destructive",
         title: t("contactPage.toastFailTitle"),
@@ -130,7 +141,16 @@ export default function Contact() {
       return;
     }
 
-    if (!captchaToken) {
+    if (turnstileEnabled && captchaLoadError) {
+      toast({
+        variant: "destructive",
+        title: t("contactPage.toastFailTitle"),
+        description: "Não foi possível carregar o captcha. Verifique domínio permitido, rede e bloqueadores.",
+      });
+      return;
+    }
+
+    if (turnstileEnabled && !captchaToken) {
       toast({
         variant: "destructive",
         title: t("contactPage.toastFailTitle"),
@@ -148,7 +168,7 @@ export default function Contact() {
           ...values,
           website: honeypotRef.current,
           formStartedAt: formStartedAtRef.current,
-          captchaToken,
+          captchaToken: turnstileEnabled ? captchaToken : undefined,
         }),
       });
 
@@ -224,9 +244,18 @@ export default function Contact() {
                     }}
                   />
                   <input type="hidden" name="formStartedAt" value={formStartedAtRef.current} readOnly />
-                  <div className="flex justify-center sm:justify-start">
-                    <div ref={turnstileContainerRef} />
-                  </div>
+                  {turnstileEnabled && (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-center sm:justify-start">
+                        <div ref={turnstileContainerRef} />
+                      </div>
+                      {captchaLoadError && (
+                        <p className="text-xs text-destructive">
+                          Erro ao carregar captcha. Confirme se o domínio atual foi adicionado no Turnstile.
+                        </p>
+                      )}
+                    </div>
+                  )}
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormField
@@ -307,7 +336,7 @@ export default function Contact() {
                     <Button
                       type="submit"
                       variant="hero"
-                      disabled={isSubmitting || !captchaToken}
+                      disabled={isSubmitting || (turnstileEnabled && !captchaToken)}
                       className="sm:w-auto w-full"
                     >
                       <Send size={18} />

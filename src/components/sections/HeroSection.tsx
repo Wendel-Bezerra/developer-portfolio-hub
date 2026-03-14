@@ -7,7 +7,7 @@ import ShinyText from '@/components/ui/ShinyText';
 
 export function HeroSection() {
   const { lang, t } = useI18n();
-  const contactPath = lang === 'en' ? '/en/contact' : '/contato';
+  const contactPath = lang === "en" ? "/en/contact" : lang === "es" ? "/es/contact" : "/contato";
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">

@@ -9,7 +9,7 @@ export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { lang, t } = useI18n();
-  const contactPath = lang === 'en' ? '/en/contact' : '/contato';
+  const contactPath = lang === "en" ? "/en/contact" : lang === "es" ? "/es/contact" : "/contato";
 
   return (
     <section id="contact" className="py-24 md:py-32">
