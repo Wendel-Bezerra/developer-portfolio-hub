@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+# Especificacoes do Projeto
 
-## Project info
+## Visao Geral
 
-**URL**: https://lovable.dev/projects/94407f30-959a-46b3-8f83-e5f664b4a81f
+- Tipo: portfolio web com formulario de contato
+- Arquitetura: frontend SPA + API Node.js/Express para envio de email
+- Linguagens principais: TypeScript (frontend) e JavaScript ESM (backend)
+- Gerenciador de pacotes: npm
 
-## How can I edit this code?
+## Requisitos de Ambiente
 
-There are several ways of editing your application.
+- Node.js `20.x`
+- npm (versao compativel com Node 20)
 
-**Use Lovable**
+## Stack Tecnologica
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/94407f30-959a-46b3-8f83-e5f664b4a81f) and start prompting.
+- Frontend: React `18`, Vite `5`, React Router `6`
+- UI: Tailwind CSS `3`, shadcn/ui (Radix UI), Lucide Icons
+- Formularios/validacao: React Hook Form, Zod
+- Backend/API: Express `5`, Nodemailer
+- Seguranca anti-spam: Honeypot, rate limit por IP, janela de tempo de envio e Cloudflare Turnstile
+- Qualidade de codigo: ESLint `9`, TypeScript `5`
 
-Changes made via Lovable will be committed automatically to this repo.
+## Scripts Disponiveis
 
-**Use your preferred IDE**
+- `npm run dev`: inicia o frontend (Vite)
+- `npm run dev:api`: inicia a API local (`server/index.mjs`)
+- `npm run dev:all`: sobe frontend + API em paralelo
+- `npm run build`: build de producao do frontend
+- `npm run build:dev`: build em modo development
+- `npm run preview`: preview da build
+- `npm run lint`: analise de lint
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Rotas Principais
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Pagina inicial:
+  - `/`
+  - `/en`
+  - `/es`
+- Pagina de contato:
+  - `/contato`
+  - `/en/contact`
+  - `/es/contact`
+- Endpoint da API:
+  - `POST /api/contact`
+  - `GET /api/health`
 
-Follow these steps:
+## Variaveis de Ambiente
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### SMTP
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- `PORT`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_SECURE`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `MAIL_TO`
+- `MAIL_FROM` (opcional)
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Protecao anti-spam
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- `CONTACT_RATE_WINDOW_MS`
+- `CONTACT_RATE_MAX`
+- `CONTACT_MIN_FILL_MS`
+- `CONTACT_MAX_FILL_MS`
 
-**Edit a file directly in GitHub**
+### Cloudflare Turnstile
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `VITE_TURNSTILE_ENABLED`
+- `TURNSTILE_ENABLED`
+- `VITE_TURNSTILE_SITE_KEY`
+- `TURNSTILE_SECRET_KEY`
 
-**Use GitHub Codespaces**
+## Estrutura Tecnica (alto nivel)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/94407f30-959a-46b3-8f83-e5f664b4a81f) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- `src/`: aplicacao frontend
+- `src/pages/Contact.tsx`: formulario de contato
+- `api/contact.js`: handler serverless da rota de contato
+- `server/index.mjs`: API Express para execucao local
+- `.env.example`: referencia oficial de configuracao de ambiente
