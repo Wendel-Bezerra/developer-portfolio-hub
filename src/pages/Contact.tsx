@@ -336,7 +336,7 @@ export default function Contact() {
                     <Button
                       type="submit"
                       variant="hero"
-                      disabled={isSubmitting || (turnstileEnabled && !captchaToken)}
+                      disabled={isSubmitting}
                       className="sm:w-auto w-full"
                     >
                       <Send size={18} />
