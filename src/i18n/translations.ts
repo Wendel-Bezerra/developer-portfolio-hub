@@ -2,97 +2,69 @@ export type Lang = "pt" | "en" | "es";
 
 export const translations = {
   pt: {
+    meta: {
+      role: "full stack developer",
+      location: "BR · GMT-3",
+    },
     nav: {
       about: "Sobre",
-      skills: "Skills",
       projects: "Projetos",
       contact: "Contato",
       resume: "Currículo",
-    },
-    hero: {
-      hello: "Olá, meu nome é",
-      taglinePrefix: "Transformo ideias em",
-      taglineHighlight: "código funcional.",
-      desc1:
-        "Desenvolvedor Full Stack com experiência em construir aplicações web escaláveis. Também crio automações e chatbots para otimizar processos e acelerar resultados.",
-      desc2Prefix: "Atualmente focado em criar experiências digitais que combinam",
-      perf: "performance",
-      ux: "usabilidade",
-      clean: "código limpo",
-      ctaProjects: "Ver Projetos",
-      ctaContact: "Entre em Contato",
+      back: "Voltar",
+      home: "Ir para o início",
+      langAria: "Idioma atual: Português. Clique para trocar.",
     },
     about: {
-      title: "Sobre Mim",
-      p1:
-        "Sou um desenvolvedor Full Stack apaixonado por criar soluções digitais que resolvem problemas reais. Minha jornada na programação começou há alguns anos, e desde então venho construindo aplicações web escaláveis e APIs robustas. Também desenvolvo automações e chatbots para otimizar processos e atendimento.",
-      p2:
-        "Atualmente, estou focado em aprimorar minhas habilidades em arquitetura de software e boas práticas de desenvolvimento. Acredito que código limpo e documentação clara são tão importantes quanto a funcionalidade em si.",
-      p3:
-        "Quando não estou codando, você pode me encontrar explorando novas tecnologias, contribuindo com projetos open source ou compartilhando conhecimento com a comunidade dev.",
-      photoAlt: "Foto de Wendel Campos Bezerra",
-    },
-    skills: {
-      title: "Skills & Tecnologias",
-      categories: {
-        backend: "Back-end",
-        frontend: "Front-end",
-        database: "Banco de Dados",
-        devops: "DevOps & Ferramentas",
+      title: "Sobre",
+      p1Prefix: "Sou um desenvolvedor Full Stack apaixonado por criar ",
+      p1Highlight: "soluções digitais que resolvem problemas reais",
+      p1Suffix:
+        ". Minha jornada na programação começou há alguns anos, e desde então venho construindo aplicações web escaláveis e APIs robustas — além de automações e chatbots para otimizar processos e atendimento.",
+      p2Prefix: "Atualmente, estou focado em aprimorar minhas habilidades em ",
+      p2Highlight: "arquitetura de software",
+      p2Suffix:
+        " e boas práticas. Acredito que código limpo e documentação clara são tão importantes quanto a funcionalidade em si.",
+      p3: "Fora do código: explorando novas tecnologias, contribuindo com open source e compartilhando conhecimento com a comunidade dev.",
+      stackTitle: "Stack",
+      contactTitle: "Contato",
+      stack: {
+        backend: "back-end",
+        frontend: "front-end",
+        database: "banco de dados",
+        devops: "devops & ferramentas",
       },
     },
     projects: {
-      title: "Projetos Recentes",
-      featured: "Projeto em Destaque",
-      role: "Meu papel:",
-      preview: "Preview do Projeto",
-      clickToVisit: "Clique para visitar o site",
-      visitSite: "Visitar Site",
-      ariaViewCode: "Ver código no GitHub",
-      ariaViewLive: "Ver demo ao vivo",
-      ariaViewCodeShort: "Ver código",
-      ariaViewDemoShort: "Ver demo",
-      otherTitle: "Outros Projetos Relevantes",
+      title: "Projetos",
       moreOnGithub: "Ver mais no GitHub",
+      kinds: {
+        site: "Site",
+        code: "Código",
+      },
       items: {
-        ajb: {
-          title: "Site de Advocacia AJB",
-          description:
-            "Portfólio profissional desenvolvido para escritório de advocacia, apresentando serviços jurídicos, área de atuação e informações de contato de forma moderna e responsiva.",
-          impact: "Aumentou a presença digital e facilitou o contato de clientes",
-          role:
-            "Desenvolvimento full stack, criação da interface responsiva e implementação do backend para gerenciamento de conteúdo.",
-        },
         facilize: {
-          title: "Facilize - Plataforma de Gestão de Negócios",
+          title: "Facilize",
           description:
-            "Plataforma completa de gestão integrada que conecta prestadores de serviços aos seus clientes, oferecendo agendamentos, pagamentos e gestão financeira. Sistema completo para contadores, fisioterapeutas, médicos, psicólogos e outros profissionais autônomos.",
-          impact: "Conectando prestadores a clientes com tecnologia de ponta, já com +100 beta testers ativos",
-          role:
-            "Desenvolvimento de funcionalidades de criação de produtos e integração financeira, incluindo controle de estoque, gestão de receitas e despesas.",
+            "Plataforma de gestão integrada que conecta prestadores de serviços a clientes: agendamentos, pagamentos e gestão financeira. +100 beta testers ativos.",
+        },
+        ajb: {
+          title: "Advocacia AJB",
+          description:
+            "Site institucional para escritório de advocacia — serviços, áreas de atuação e contato, moderno e responsivo.",
         },
         travelTracker: {
           title: "Travel Tracker",
-          description:
-            "Aplicação para rastreamento de viagens e locais visitados, permitindo marcar lugares no mapa e criar memórias das suas aventuras.",
+          description: "Rastreamento de viagens e locais visitados, com marcação de lugares no mapa.",
         },
         betTracker: {
           title: "Bet Tracker",
-          description:
-            "Sistema para acompanhamento de apostas esportivas, análise de estatísticas e gestão de resultados.",
+          description: "Acompanhamento de apostas esportivas, estatísticas e gestão de resultados.",
         },
       },
     },
-    contactSection: {
-      kicker: "E agora?",
-      title: "Vamos Conversar?",
-      description:
-        "Estou sempre aberto a novas oportunidades, projetos interessantes ou simplesmente trocar uma ideia sobre tecnologia. Minha inbox está sempre aberta — seja para uma proposta de trabalho ou apenas para dizer \"oi\"!",
-      cta: "Enviar Email",
-    },
     contactPage: {
-      back: "Voltar",
-      title: "Vamos conversar?",
+      title: "Contato",
       description:
         "Envie uma mensagem por aqui e eu retorno o quanto antes. Se preferir, você também pode mandar direto pelo email.",
       name: "Nome",
@@ -111,6 +83,10 @@ export const translations = {
       toastSentDesc: "Obrigado! Vou te responder o mais rápido possível.",
       toastFailTitle: "Falha ao enviar",
       toastFailDesc: "Tente novamente em instantes.",
+      captchaMissingKey: "Captcha não configurado. Defina VITE_TURNSTILE_SITE_KEY no ambiente.",
+      captchaLoadError: "Não foi possível carregar o captcha. Verifique domínio permitido, rede e bloqueadores.",
+      captchaPending: "Confirme o captcha antes de enviar.",
+      captchaInlineError: "Erro ao carregar captcha. Confirme se o domínio atual foi adicionado no Turnstile.",
       validation: {
         nameMin: "Informe seu nome.",
         nameMax: "Nome muito longo.",
@@ -121,104 +97,79 @@ export const translations = {
         messageMax: "Mensagem muito longa.",
       },
     },
+    notFound: {
+      title: "Página não encontrada",
+      description: "O endereço acessado não existe ou foi movido.",
+      back: "Voltar ao início",
+    },
     footer: {
-      rights: "Todos os direitos reservados.",
-      builtWith: "Feito com React + TailwindCSS",
-      developedBy: "Desenvolvido por Wendel Campos Bezerra",
+      copyright: "© {year} wendel bezerra",
     },
   },
   en: {
+    meta: {
+      role: "full stack developer",
+      location: "BR · GMT-3",
+    },
     nav: {
       about: "About",
-      skills: "Skills",
       projects: "Projects",
       contact: "Contact",
       resume: "Resume",
-    },
-    hero: {
-      hello: "Hi, my name is",
-      taglinePrefix: "I turn ideas into",
-      taglineHighlight: "working code.",
-      desc1:
-        "Full Stack developer with experience building scalable web applications. I also build automations and chatbots to streamline processes and speed up results.",
-      desc2Prefix: "Currently focused on crafting digital experiences that combine",
-      perf: "performance",
-      ux: "usability",
-      clean: "clean code",
-      ctaProjects: "View Projects",
-      ctaContact: "Get in Touch",
+      back: "Back",
+      home: "Go to home",
+      langAria: "Current language: English. Click to switch.",
     },
     about: {
-      title: "About Me",
-      p1:
-        "I’m a Full Stack developer passionate about creating digital solutions that solve real problems. My programming journey started a few years ago, and since then I’ve been building scalable web apps and robust APIs. I also develop automations and chatbots to optimize processes and customer support.",
-      p2:
-        "Right now, I’m focused on improving my software architecture skills and development best practices. I believe clean code and clear documentation are just as important as functionality.",
-      p3:
-        "When I’m not coding, you’ll find me exploring new technologies, contributing to open source projects, or sharing knowledge with the dev community.",
-      photoAlt: "Photo of Wendel Campos Bezerra",
-    },
-    skills: {
-      title: "Skills & Technologies",
-      categories: {
-        backend: "Backend",
-        frontend: "Frontend",
-        database: "Database",
-        devops: "DevOps & Tools",
+      title: "About",
+      p1Prefix: "I’m a Full Stack developer passionate about building ",
+      p1Highlight: "digital solutions that solve real problems",
+      p1Suffix:
+        ". My programming journey started a few years ago, and since then I’ve been building scalable web apps and robust APIs — plus automations and chatbots to streamline processes and customer support.",
+      p2Prefix: "Right now, I’m focused on sharpening my skills in ",
+      p2Highlight: "software architecture",
+      p2Suffix:
+        " and best practices. I believe clean code and clear documentation matter as much as the functionality itself.",
+      p3: "Outside the code: exploring new technologies, contributing to open source, and sharing knowledge with the dev community.",
+      stackTitle: "Stack",
+      contactTitle: "Contact",
+      stack: {
+        backend: "back-end",
+        frontend: "front-end",
+        database: "database",
+        devops: "devops & tools",
       },
     },
     projects: {
-      title: "Recent Projects",
-      featured: "Featured Project",
-      role: "My role:",
-      preview: "Project preview",
-      clickToVisit: "Click to visit the website",
-      visitSite: "Visit site",
-      ariaViewCode: "View code on GitHub",
-      ariaViewLive: "View live demo",
-      ariaViewCodeShort: "View code",
-      ariaViewDemoShort: "View demo",
-      otherTitle: "Other Relevant Projects",
+      title: "Projects",
       moreOnGithub: "See more on GitHub",
+      kinds: {
+        site: "Site",
+        code: "Code",
+      },
       items: {
-        ajb: {
-          title: "AJB Law Firm Website",
-          description:
-            "A professional website built for a law firm, showcasing legal services, practice areas, and contact information in a modern, responsive layout.",
-          impact: "Improved online presence and made it easier for clients to get in touch",
-          role:
-            "Full-stack development, responsive UI implementation, and backend setup for content management.",
-        },
         facilize: {
-          title: "Facilize — Business Management Platform",
+          title: "Facilize",
           description:
-            "An integrated management platform connecting service providers and clients, offering scheduling, payments, and financial management. Built for accountants, physiotherapists, doctors, psychologists, and other independent professionals.",
-          impact: "Connecting providers and clients with cutting-edge tech, with 100+ active beta testers",
-          role:
-            "Built product creation features and financial integrations, including inventory control and income/expense management.",
+            "Integrated management platform connecting service providers to clients: scheduling, payments, and financial management. 100+ active beta testers.",
+        },
+        ajb: {
+          title: "AJB Law Firm",
+          description:
+            "Institutional website for a law firm — services, practice areas, and contact, modern and responsive.",
         },
         travelTracker: {
           title: "Travel Tracker",
-          description:
-            "An app to track trips and visited places, letting users pin locations on a map and create memories of their adventures.",
+          description: "Tracks trips and visited places, pinning locations on a map.",
         },
         betTracker: {
           title: "Bet Tracker",
-          description:
-            "A system to track sports bets, analyze statistics, and manage results.",
+          description: "Tracks sports bets, statistics, and results management.",
         },
       },
     },
-    contactSection: {
-      kicker: "What’s next?",
-      title: "Let’s talk",
-      description:
-        "I’m always open to new opportunities, interesting projects, or just chatting about tech. My inbox is always open — whether it’s a job offer or just to say hi!",
-      cta: "Send Email",
-    },
     contactPage: {
-      back: "Back",
-      title: "Let’s talk",
+      title: "Contact",
       description: "Send a message here and I’ll get back to you soon. If you prefer, you can email me directly.",
       name: "Name",
       email: "Email",
@@ -236,6 +187,10 @@ export const translations = {
       toastSentDesc: "Thanks! I’ll reply as soon as possible.",
       toastFailTitle: "Send failed",
       toastFailDesc: "Please try again in a moment.",
+      captchaMissingKey: "Captcha is not configured. Set VITE_TURNSTILE_SITE_KEY in the environment.",
+      captchaLoadError: "Could not load the captcha. Check the allowed domain, your network, and blockers.",
+      captchaPending: "Please complete the captcha before sending.",
+      captchaInlineError: "Failed to load the captcha. Make sure this domain is allowed in Turnstile.",
       validation: {
         nameMin: "Please enter your name.",
         nameMax: "Name is too long.",
@@ -246,104 +201,79 @@ export const translations = {
         messageMax: "Message is too long.",
       },
     },
+    notFound: {
+      title: "Page not found",
+      description: "This address doesn’t exist or has been moved.",
+      back: "Back to home",
+    },
     footer: {
-      rights: "All rights reserved.",
-      builtWith: "Built with React + TailwindCSS",
-      developedBy: "Developed by Wendel Campos Bezerra",
+      copyright: "© {year} wendel bezerra",
     },
   },
   es: {
+    meta: {
+      role: "full stack developer",
+      location: "BR · GMT-3",
+    },
     nav: {
       about: "Sobre mí",
-      skills: "Habilidades",
       projects: "Proyectos",
       contact: "Contacto",
       resume: "Currículum",
-    },
-    hero: {
-      hello: "Hola, mi nombre es",
-      taglinePrefix: "Convierto ideas en",
-      taglineHighlight: "código funcional.",
-      desc1:
-        "Desarrollador Full Stack con experiencia construyendo aplicaciones web escalables. También creo automatizaciones y chatbots para optimizar procesos y acelerar resultados.",
-      desc2Prefix: "Actualmente enfocado en crear experiencias digitales que combinan",
-      perf: "rendimiento",
-      ux: "usabilidad",
-      clean: "código limpio",
-      ctaProjects: "Ver Proyectos",
-      ctaContact: "Contactar",
+      back: "Volver",
+      home: "Ir al inicio",
+      langAria: "Idioma actual: Español. Haz clic para cambiar.",
     },
     about: {
       title: "Sobre mí",
-      p1:
-        "Soy un desarrollador Full Stack apasionado por crear soluciones digitales que resuelven problemas reales. Mi camino en la programación comenzó hace algunos años y desde entonces he construido aplicaciones web escalables y APIs robustas. También desarrollo automatizaciones y chatbots para optimizar procesos y atención.",
-      p2:
-        "Ahora mismo estoy enfocado en mejorar mis habilidades de arquitectura de software y buenas prácticas de desarrollo. Creo que el código limpio y una documentación clara son tan importantes como la funcionalidad.",
-      p3:
-        "Cuando no estoy programando, me encontrarás explorando nuevas tecnologías, contribuyendo a proyectos open source o compartiendo conocimiento con la comunidad dev.",
-      photoAlt: "Foto de Wendel Campos Bezerra",
-    },
-    skills: {
-      title: "Habilidades & Tecnologías",
-      categories: {
-        backend: "Back-end",
-        frontend: "Front-end",
-        database: "Base de datos",
-        devops: "DevOps & Herramientas",
+      p1Prefix: "Soy un desarrollador Full Stack apasionado por crear ",
+      p1Highlight: "soluciones digitales que resuelven problemas reales",
+      p1Suffix:
+        ". Mi camino en la programación comenzó hace algunos años y desde entonces construyo aplicaciones web escalables y APIs robustas — además de automatizaciones y chatbots para optimizar procesos y atención.",
+      p2Prefix: "Actualmente estoy enfocado en mejorar mis habilidades en ",
+      p2Highlight: "arquitectura de software",
+      p2Suffix:
+        " y buenas prácticas. Creo que el código limpio y la documentación clara son tan importantes como la funcionalidad.",
+      p3: "Fuera del código: explorando nuevas tecnologías, contribuyendo al open source y compartiendo conocimiento con la comunidad dev.",
+      stackTitle: "Stack",
+      contactTitle: "Contacto",
+      stack: {
+        backend: "back-end",
+        frontend: "front-end",
+        database: "base de datos",
+        devops: "devops & herramientas",
       },
     },
     projects: {
-      title: "Proyectos Recientes",
-      featured: "Proyecto Destacado",
-      role: "Mi rol:",
-      preview: "Vista previa del proyecto",
-      clickToVisit: "Haz clic para visitar el sitio",
-      visitSite: "Visitar sitio",
-      ariaViewCode: "Ver código en GitHub",
-      ariaViewLive: "Ver demo en vivo",
-      ariaViewCodeShort: "Ver código",
-      ariaViewDemoShort: "Ver demo",
-      otherTitle: "Otros Proyectos Relevantes",
+      title: "Proyectos",
       moreOnGithub: "Ver más en GitHub",
+      kinds: {
+        site: "Sitio",
+        code: "Código",
+      },
       items: {
-        ajb: {
-          title: "Sitio web del Estudio Jurídico AJB",
-          description:
-            "Sitio profesional para un estudio jurídico, presentando servicios legales, áreas de práctica e información de contacto en un diseño moderno y adaptable.",
-          impact: "Mejoró la presencia digital y facilitó el contacto de clientes",
-          role:
-            "Desarrollo full stack, implementación de UI responsive y backend para gestión de contenido.",
-        },
         facilize: {
-          title: "Facilize — Plataforma de Gestión de Negocios",
+          title: "Facilize",
           description:
-            "Plataforma de gestión integrada que conecta prestadores de servicios con sus clientes, ofreciendo reservas, pagos y gestión financiera. Hecha para contadores, fisioterapeutas, médicos, psicólogos y otros profesionales independientes.",
-          impact: "Conectando profesionales y clientes con tecnología de punta, con +100 beta testers activos",
-          role:
-            "Desarrollo de funcionalidades de creación de productos e integraciones financieras, incluyendo control de stock y gestión de ingresos/gastos.",
+            "Plataforma de gestión integrada que conecta prestadores de servicios con clientes: reservas, pagos y gestión financiera. +100 beta testers activos.",
+        },
+        ajb: {
+          title: "Abogacía AJB",
+          description:
+            "Sitio institucional para un estudio jurídico — servicios, áreas de práctica y contacto, moderno y adaptable.",
         },
         travelTracker: {
           title: "Travel Tracker",
-          description:
-            "Aplicación para registrar viajes y lugares visitados, permitiendo marcar puntos en el mapa y guardar recuerdos de tus aventuras.",
+          description: "Registro de viajes y lugares visitados, marcando puntos en el mapa.",
         },
         betTracker: {
           title: "Bet Tracker",
-          description:
-            "Sistema para seguimiento de apuestas deportivas, análisis de estadísticas y gestión de resultados.",
+          description: "Seguimiento de apuestas deportivas, estadísticas y gestión de resultados.",
         },
       },
     },
-    contactSection: {
-      kicker: "¿Y ahora?",
-      title: "¿Hablamos?",
-      description:
-        "Siempre estoy abierto a nuevas oportunidades, proyectos interesantes o simplemente charlar sobre tecnología. Mi bandeja de entrada está abierta — ya sea para una propuesta de trabajo o solo para decir “hola”.",
-      cta: "Enviar email",
-    },
     contactPage: {
-      back: "Volver",
-      title: "Hablemos",
+      title: "Contacto",
       description:
         "Envíame un mensaje por aquí y te responderé lo antes posible. Si lo prefieres, también puedes escribirme directamente por email.",
       name: "Nombre",
@@ -362,6 +292,10 @@ export const translations = {
       toastSentDesc: "¡Gracias! Te responderé lo antes posible.",
       toastFailTitle: "Error al enviar",
       toastFailDesc: "Inténtalo de nuevo en un momento.",
+      captchaMissingKey: "Captcha no configurado. Define VITE_TURNSTILE_SITE_KEY en el entorno.",
+      captchaLoadError: "No se pudo cargar el captcha. Revisa el dominio permitido, la red y los bloqueadores.",
+      captchaPending: "Completa el captcha antes de enviar.",
+      captchaInlineError: "Error al cargar el captcha. Confirma que este dominio esté permitido en Turnstile.",
       validation: {
         nameMin: "Por favor, ingresa tu nombre.",
         nameMax: "El nombre es demasiado largo.",
@@ -372,11 +306,13 @@ export const translations = {
         messageMax: "El mensaje es demasiado largo.",
       },
     },
+    notFound: {
+      title: "Página no encontrada",
+      description: "La dirección no existe o fue movida.",
+      back: "Volver al inicio",
+    },
     footer: {
-      rights: "Todos los derechos reservados.",
-      builtWith: "Hecho con React + TailwindCSS",
-      developedBy: "Desarrollado por Wendel Campos Bezerra",
+      copyright: "© {year} wendel bezerra",
     },
   },
 } as const;
-

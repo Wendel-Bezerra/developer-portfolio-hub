@@ -1,17 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ArrowLeft, Mail, Send } from "lucide-react";
 
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { BackLink } from "@/components/BackLink";
+import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { PROFILE } from "@/data/profile";
 import { useToast } from "@/hooks/use-toast";
-import { useForm } from "react-hook-form";
 import { useI18n } from "@/i18n/I18nProvider";
 
 type ContactValues = {
@@ -40,8 +39,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
   const [captchaLoadError, setCaptchaLoadError] = useState(false);
-  const { lang, t } = useI18n();
-  const homeBase = lang === "en" ? "/en" : lang === "es" ? "/es" : "/";
+  const { t } = useI18n();
   const honeypotRef = useRef("");
   const formStartedAtRef = useRef(Date.now());
   const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
@@ -82,9 +80,7 @@ export default function Contact() {
     if (!turnstileEnabled || !turnstileSiteKey || !turnstileContainerRef.current) return;
 
     const renderWidget = () => {
-      const turnstile = (
-        window as Window & { turnstile?: TurnstileApi }
-      ).turnstile;
+      const turnstile = (window as Window & { turnstile?: TurnstileApi }).turnstile;
       if (!turnstile || !turnstileContainerRef.current || turnstileWidgetIdRef.current) return;
 
       turnstileWidgetIdRef.current = turnstile.render(turnstileContainerRef.current, {
@@ -100,7 +96,7 @@ export default function Contact() {
           setCaptchaLoadError(true);
           setCaptchaToken("");
         },
-        theme: "auto",
+        theme: "dark",
       });
     };
 
@@ -136,7 +132,7 @@ export default function Contact() {
       toast({
         variant: "destructive",
         title: t("contactPage.toastFailTitle"),
-        description: "Captcha não configurado. Defina VITE_TURNSTILE_SITE_KEY no ambiente.",
+        description: t("contactPage.captchaMissingKey"),
       });
       return;
     }
@@ -145,7 +141,7 @@ export default function Contact() {
       toast({
         variant: "destructive",
         title: t("contactPage.toastFailTitle"),
-        description: "Não foi possível carregar o captcha. Verifique domínio permitido, rede e bloqueadores.",
+        description: t("contactPage.captchaLoadError"),
       });
       return;
     }
@@ -154,7 +150,7 @@ export default function Contact() {
       toast({
         variant: "destructive",
         title: t("contactPage.toastFailTitle"),
-        description: "Confirme o captcha antes de enviar.",
+        description: t("contactPage.captchaPending"),
       });
       return;
     }
@@ -175,7 +171,7 @@ export default function Contact() {
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { message?: string; details?: string } | null;
         const msg = [data?.message, data?.details].filter(Boolean).join(" — ");
-        throw new Error(msg || "Não foi possível enviar sua mensagem.");
+        throw new Error(msg || t("contactPage.toastFailDesc"));
       }
 
       toast({
@@ -202,155 +198,123 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main className="pt-24 md:pt-28 pb-16">
-        <div className="section-container">
-          <div className="max-w-2xl mx-auto">
-            <div className="mb-8">
-              <Button variant="ghost" asChild className="px-0">
-                <Link to={homeBase} className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground">
-                  <ArrowLeft size={18} />
-                  {t("contactPage.back")}
-                </Link>
+    <PageShell>
+      <div className="max-w-2xl flex-1 animate-fade-up px-6 pb-24 pt-6 md:px-14">
+        <BackLink />
+
+        <h1 className="cursor mb-6 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
+          {t("contactPage.title")}
+        </h1>
+
+        <p className="mb-10 text-base leading-[1.8] text-body">{t("contactPage.description")}</p>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <input
+              type="text"
+              name="website"
+              autoComplete="off"
+              tabIndex={-1}
+              aria-hidden="true"
+              className="hidden"
+              value={honeypotRef.current}
+              onChange={(event) => {
+                honeypotRef.current = event.target.value;
+              }}
+            />
+            <input type="hidden" name="formStartedAt" value={formStartedAtRef.current} readOnly />
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mono text-[13px] text-dim">{t("contactPage.name")}</FormLabel>
+                    <FormControl>
+                      <Input placeholder={t("contactPage.placeholders.name")} autoComplete="name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mono text-[13px] text-dim">{t("contactPage.email")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("contactPage.placeholders.email")}
+                        autoComplete="email"
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="subject"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="mono text-[13px] text-dim">{t("contactPage.subject")}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t("contactPage.placeholders.subject")} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="mono text-[13px] text-dim">{t("contactPage.message")}</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={t("contactPage.placeholders.message")}
+                      className="min-h-[160px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {turnstileEnabled && (
+              <div className="flex flex-col gap-2">
+                <div ref={turnstileContainerRef} />
+                {captchaLoadError && (
+                  <p className="text-xs text-destructive">{t("contactPage.captchaInlineError")}</p>
+                )}
+              </div>
+            )}
+
+            <div className="flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <a
+                href={`mailto:${PROFILE.email}`}
+                className="mono text-[13px] text-muted-foreground transition-colors duration-250 hover:text-foreground"
+              >
+                {PROFILE.email}
+              </a>
+
+              <Button type="submit" variant="hero" disabled={isSubmitting} className="w-full sm:w-auto">
+                {isSubmitting ? t("contactPage.sending") : t("contactPage.send")}
               </Button>
             </div>
-
-            <div className="flex items-center gap-4 mb-10">
-              <span className="mono text-primary text-base">{t("nav.contact")}</span>
-              <div className="h-px flex-1 bg-border" />
-            </div>
-
-            <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight">
-              {t("contactPage.title")}
-            </h1>
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-10">
-              {t("contactPage.description")}
-            </p>
-
-            <div className="card-gradient rounded-lg p-6 md:p-8 shadow-lg">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <input
-                    type="text"
-                    name="website"
-                    autoComplete="off"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                    className="hidden"
-                    value={honeypotRef.current}
-                    onChange={(event) => {
-                      honeypotRef.current = event.target.value;
-                    }}
-                  />
-                  <input type="hidden" name="formStartedAt" value={formStartedAtRef.current} readOnly />
-                  {turnstileEnabled && (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex justify-center sm:justify-start">
-                        <div ref={turnstileContainerRef} />
-                      </div>
-                      {captchaLoadError && (
-                        <p className="text-xs text-destructive">
-                          Erro ao carregar captcha. Confirme se o domínio atual foi adicionado no Turnstile.
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("contactPage.name")}</FormLabel>
-                          <FormControl>
-                            <Input placeholder={t("contactPage.placeholders.name")} autoComplete="name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("contactPage.email")}</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder={t("contactPage.placeholders.email")}
-                              autoComplete="email"
-                              type="email"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("contactPage.subject")}</FormLabel>
-                        <FormControl>
-                          <Input placeholder={t("contactPage.placeholders.subject")} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("contactPage.message")}</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder={t("contactPage.placeholders.message")}
-                            className="min-h-[140px]"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-                    <a
-                      className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      href="mailto:Wendel.2929@gmail.com"
-                    >
-                      <Mail size={18} />
-                      Wendel.2929@gmail.com
-                    </a>
-
-                    <Button
-                      type="submit"
-                      variant="hero"
-                      disabled={isSubmitting}
-                      className="sm:w-auto w-full"
-                    >
-                      <Send size={18} />
-                      {isSubmitting ? t("contactPage.sending") : t("contactPage.send")}
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+          </form>
+        </Form>
+      </div>
+    </PageShell>
   );
 }
-

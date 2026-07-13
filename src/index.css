@@ -4,56 +4,43 @@
 
 @layer base {
   :root {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    /* Paleta monocromática — Portfolio v3 (P&B) */
+    --background: 0 0% 2%; /* #050505 */
+    --foreground: 0 0% 95%; /* #F2F2F2 */
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 172 66% 50%;
-    --primary-foreground: 222 47% 6%;
+    /* Em um site P&B a "cor de marca" é o próprio branco. */
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 2%;
 
-    --secondary: 222 47% 12%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 222 30% 18%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 56%; /* #8F8F8F */
 
-    --accent: 172 66% 50%;
-    --accent-foreground: 222 47% 6%;
+    --accent: 0 0% 13%;
+    --accent-foreground: 0 0% 95%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 58%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 222 30% 18%;
-    --input: 222 30% 18%;
-    --ring: 172 66% 50%;
+    --border: 0 0% 13%; /* #202020 */
+    --input: 0 0% 13%;
+    --ring: 0 0% 56%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(172 66% 50%), hsl(190 70% 45%));
-    --gradient-card: linear-gradient(145deg, hsl(222 47% 10%), hsl(222 47% 8%));
-    --gradient-hero: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(172 66% 50% / 0.15), transparent);
-    
-    --shadow-glow: 0 0 60px hsl(172 66% 50% / 0.15);
-    --shadow-card: 0 4px 24px hsl(222 47% 4% / 0.4);
-    --shadow-card-hover: 0 8px 40px hsl(172 66% 50% / 0.1);
+    /* Tons de apoio do v3 */
+    --body: 0 0% 72%; /* #B8B8B8 — texto corrido */
+    --dim: 0 0% 35%; /* #5A5A5A — numeração, legendas */
 
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-    --sidebar-background: 222 47% 8%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 172 66% 50%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 222 30% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 172 66% 50%;
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -71,65 +58,62 @@
   }
 
   ::selection {
-    @apply bg-primary/30 text-foreground;
+    @apply bg-foreground/20 text-foreground;
   }
 }
 
 @layer components {
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-primary);
-  }
-
-  .card-gradient {
-    background: var(--gradient-card);
-  }
-
-  .glow-effect {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .hover-lift {
-    @apply transition-all duration-300;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-card-hover);
-  }
-
-  .link-underline {
-    @apply relative;
-  }
-
-  .link-underline::after {
-    content: '';
-    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-300;
-  }
-
-  .link-underline:hover::after {
-    @apply w-full;
-  }
-
   .section-container {
-    @apply max-w-6xl mx-auto px-6 md:px-8;
+    @apply mx-auto w-full max-w-5xl px-6 md:px-14;
   }
 
   .mono {
     @apply font-mono;
   }
+
+  /* Cursor de terminal piscando — assinatura da marca. */
+  .cursor::after {
+    content: '_';
+    @apply inline-block;
+    animation: blink 1.2s step-end infinite;
+  }
+
+  /* Link com sublinhado discreto que acende no hover. */
+  .link-line {
+    @apply border-b border-border pb-0.5 transition-colors duration-250;
+  }
+
+  .link-line:hover {
+    @apply border-foreground text-foreground;
+  }
+
+  /* Linha de lista (projetos/stack): desliza para a direita no hover. */
+  .row-slide {
+    @apply transition-all duration-250;
+  }
+
+  .row-slide:hover {
+    @apply text-foreground;
+    padding-left: 0.75rem;
+  }
 }
 
 @layer utilities {
-  .animation-delay-200 {
-    animation-delay: 200ms;
+  .text-body {
+    color: hsl(var(--body));
   }
-  
-  .animation-delay-400 {
-    animation-delay: 400ms;
+
+  .text-dim {
+    color: hsl(var(--dim));
   }
-  
-  .animation-delay-600 {
-    animation-delay: 600ms;
+
+  .duration-250 {
+    transition-duration: 250ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor::after {
+    animation: none;
   }
 }

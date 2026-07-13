@@ -6,10 +6,9 @@ createRoot(document.getElementById("root")!).render(<App />);
 
 // Adia downloads de fontes para tirar do caminho crítico de renderização.
 const loadDeferredFonts = () => {
-  void import("@fontsource-variable/inter");
+  void import("@fontsource-variable/space-grotesk");
 
   const loadSecondary = () => {
-    void import("@fontsource-variable/sora");
     void import("@fontsource-variable/jetbrains-mono");
   };
 

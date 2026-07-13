@@ -1,8 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 
-const Aurora = lazy(() => import("@/components/Aurora"));
+const SideRays = lazy(() => import("@/components/SideRays"));
 
-export function AuroraBackground() {
+export function RaysBackground() {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -26,20 +26,12 @@ export function AuroraBackground() {
   }, []);
 
   return (
-    <div aria-hidden className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {enabled ? (
         <Suspense fallback={null}>
-          <Aurora
-            className="absolute inset-0"
-            colorStops={["#04010e", "#3919a4", "#5227FF"]}
-            blend={0.5}
-            amplitude={1.0}
-            speed={1}
-          />
+          <SideRays className="absolute inset-0 h-full w-full" speed={2.5} opacity={1} />
         </Suspense>
       ) : null}
-      <div className="absolute inset-0 bg-background/30" />
     </div>
   );
 }
-
