@@ -2,7 +2,7 @@
 export type ProjectKind = "site" | "code";
 
 export type Project = {
-  key: "facilize" | "ajb" | "travelTracker" | "betTracker";
+  key: "despesas" | "facilize" | "ajb" | "travelTracker" | "betTracker";
   year: string;
   tech: string;
   kind: ProjectKind;
@@ -10,6 +10,13 @@ export type Project = {
 };
 
 export const PROJECTS: Project[] = [
+  {
+    key: "despesas",
+    year: "2026",
+    tech: "React · TypeScript · Vite · Tailwind",
+    kind: "site",
+    url: "https://despesas-alpha-seven.vercel.app/",
+  },
   {
     key: "facilize",
     year: "2025",

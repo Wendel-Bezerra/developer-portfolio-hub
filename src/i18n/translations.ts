@@ -43,6 +43,11 @@ export const translations = {
         code: "Código",
       },
       items: {
+        despesas: {
+          title: "Saldo",
+          description:
+            "App de finanças pessoais: dashboard, despesas por categoria, controle de investimentos, relatórios em gráfico e exportação dos dados.",
+        },
         facilize: {
           title: "Facilize",
           description:
@@ -148,6 +153,11 @@ export const translations = {
         code: "Code",
       },
       items: {
+        despesas: {
+          title: "Saldo",
+          description:
+            "Personal finance app: dashboard, expenses by category, investment tracking, chart-based reports, and data export.",
+        },
         facilize: {
           title: "Facilize",
           description:
@@ -252,6 +262,11 @@ export const translations = {
         code: "Código",
       },
       items: {
+        despesas: {
+          title: "Saldo",
+          description:
+            "App de finanzas personales: dashboard, gastos por categoría, control de inversiones, informes con gráficos y exportación de datos.",
+        },
         facilize: {
           title: "Facilize",
           description:
