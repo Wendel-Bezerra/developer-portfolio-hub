@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { BackLink } from "@/components/BackLink";
-import { PageShell } from "@/components/layout/PageShell";
+import { Reveal } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -34,7 +33,7 @@ type TurnstileApi = {
   reset: (widgetId?: string) => void;
 };
 
-export default function Contact() {
+export function ContactSection() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
@@ -170,7 +169,7 @@ export default function Contact() {
 
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { message?: string; details?: string } | null;
-        const msg = [data?.message, data?.details].filter(Boolean).join(" — ");
+        const msg = [data?.message, data?.details].filter(Boolean).join(". ");
         throw new Error(msg || t("contactPage.toastFailDesc"));
       }
 
@@ -198,16 +197,16 @@ export default function Contact() {
   }
 
   return (
-    <PageShell>
-      <div className="max-w-2xl flex-1 animate-fade-up px-6 pb-24 pt-6 md:px-14">
-        <BackLink />
-
-        <h1 className="cursor mb-6 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
+    <div className="max-w-2xl px-6 md:px-14">
+      <Reveal>
+        <h2 className="cursor mb-6 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
           {t("contactPage.title")}
-        </h1>
+        </h2>
 
         <p className="mb-10 text-base leading-[1.8] text-body">{t("contactPage.description")}</p>
+      </Reveal>
 
+      <Reveal delay={80}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <input
@@ -314,7 +313,7 @@ export default function Contact() {
             </div>
           </form>
         </Form>
-      </div>
-    </PageShell>
+      </Reveal>
+    </div>
   );
 }

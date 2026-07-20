@@ -20,14 +20,14 @@ export const PROJECTS: Project[] = [
   {
     key: "facilize",
     year: "2025",
-    tech: "React · Node.js — Full Stack",
+    tech: "React · Node.js · Full Stack",
     kind: "site",
     url: "https://www.facilize.com.br/",
   },
   {
     key: "ajb",
     year: "2024",
-    tech: "React · Node.js — Full Stack",
+    tech: "React · Node.js · Full Stack",
     kind: "site",
     url: "https://www.ajbadvocacia.com.br/",
   },

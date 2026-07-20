@@ -20,11 +20,15 @@ export const translations = {
       p1Prefix: "Sou um desenvolvedor Full Stack apaixonado por criar ",
       p1Highlight: "soluções digitais que resolvem problemas reais",
       p1Suffix:
-        ". Minha jornada na programação começou há alguns anos, e desde então venho construindo aplicações web escaláveis e APIs robustas — além de automações e chatbots para otimizar processos e atendimento.",
-      p2Prefix: "Atualmente, estou focado em aprimorar minhas habilidades em ",
+        ". Minha jornada na programação começou há alguns anos, e desde então venho construindo aplicações web escaláveis e APIs robustas, além de automações e chatbots para otimizar processos e atendimento.",
+      p2Prefix: "Hoje meu foco está em ",
       p2Highlight: "arquitetura de software",
       p2Suffix:
-        " e boas práticas. Acredito que código limpo e documentação clara são tão importantes quanto a funcionalidade em si.",
+        " e boas práticas, porque acredito que código limpo e documentação clara valem tanto quanto a funcionalidade em si.",
+      aiPrefix: "É essa mesma base que sustenta o meu principal ponto forte: a ",
+      aiHighlight: "automação de processos com IA",
+      aiSuffix:
+        ". Integrações com LLMs, agentes e chatbots só entregam valor de verdade quando estão bem arquitetados, e é aí que eu junto as duas coisas para eliminar trabalho manual repetitivo e conectar sistemas que antes não conversavam entre si.",
       p3: "Fora do código: explorando novas tecnologias, contribuindo com open source e compartilhando conhecimento com a comunidade dev.",
       stackTitle: "Stack",
       contactTitle: "Contato",
@@ -56,7 +60,7 @@ export const translations = {
         ajb: {
           title: "Advocacia AJB",
           description:
-            "Site institucional para escritório de advocacia — serviços, áreas de atuação e contato, moderno e responsivo.",
+            "Site institucional para escritório de advocacia: serviços, áreas de atuação e contato, moderno e responsivo.",
         },
         travelTracker: {
           title: "Travel Tracker",
@@ -130,11 +134,15 @@ export const translations = {
       p1Prefix: "I’m a Full Stack developer passionate about building ",
       p1Highlight: "digital solutions that solve real problems",
       p1Suffix:
-        ". My programming journey started a few years ago, and since then I’ve been building scalable web apps and robust APIs — plus automations and chatbots to streamline processes and customer support.",
-      p2Prefix: "Right now, I’m focused on sharpening my skills in ",
+        ". My programming journey started a few years ago, and since then I’ve been building scalable web apps and robust APIs, plus automations and chatbots to streamline processes and customer support.",
+      p2Prefix: "These days my focus is on ",
       p2Highlight: "software architecture",
       p2Suffix:
-        " and best practices. I believe clean code and clear documentation matter as much as the functionality itself.",
+        " and best practices, because I believe clean code and clear documentation matter as much as the functionality itself.",
+      aiPrefix: "That same foundation is what supports my strongest area: ",
+      aiHighlight: "process automation with AI",
+      aiSuffix:
+        ". LLM integrations, agents and chatbots only deliver real value when they are well architected, and that is where I bring the two together to remove repetitive manual work and connect systems that previously didn’t talk to each other.",
       p3: "Outside the code: exploring new technologies, contributing to open source, and sharing knowledge with the dev community.",
       stackTitle: "Stack",
       contactTitle: "Contact",
@@ -166,7 +174,7 @@ export const translations = {
         ajb: {
           title: "AJB Law Firm",
           description:
-            "Institutional website for a law firm — services, practice areas, and contact, modern and responsive.",
+            "Institutional website for a law firm: services, practice areas, and contact, modern and responsive.",
         },
         travelTracker: {
           title: "Travel Tracker",
@@ -239,11 +247,15 @@ export const translations = {
       p1Prefix: "Soy un desarrollador Full Stack apasionado por crear ",
       p1Highlight: "soluciones digitales que resuelven problemas reales",
       p1Suffix:
-        ". Mi camino en la programación comenzó hace algunos años y desde entonces construyo aplicaciones web escalables y APIs robustas — además de automatizaciones y chatbots para optimizar procesos y atención.",
-      p2Prefix: "Actualmente estoy enfocado en mejorar mis habilidades en ",
+        ". Mi camino en la programación comenzó hace algunos años y desde entonces construyo aplicaciones web escalables y APIs robustas, además de automatizaciones y chatbots para optimizar procesos y atención.",
+      p2Prefix: "Hoy mi foco está en la ",
       p2Highlight: "arquitectura de software",
       p2Suffix:
-        " y buenas prácticas. Creo que el código limpio y la documentación clara son tan importantes como la funcionalidad.",
+        " y las buenas prácticas, porque creo que el código limpio y la documentación clara valen tanto como la funcionalidad en sí.",
+      aiPrefix: "Esa misma base es la que sostiene mi principal punto fuerte: la ",
+      aiHighlight: "automatización de procesos con IA",
+      aiSuffix:
+        ". Las integraciones con LLMs, los agentes y los chatbots solo entregan valor real cuando están bien arquitectados, y ahí es donde uno las dos cosas para eliminar trabajo manual repetitivo y conectar sistemas que antes no se comunicaban entre sí.",
       p3: "Fuera del código: explorando nuevas tecnologías, contribuyendo al open source y compartiendo conocimiento con la comunidad dev.",
       stackTitle: "Stack",
       contactTitle: "Contacto",
@@ -275,7 +287,7 @@ export const translations = {
         ajb: {
           title: "Abogacía AJB",
           description:
-            "Sitio institucional para un estudio jurídico — servicios, áreas de práctica y contacto, moderno y adaptable.",
+            "Sitio institucional para un estudio jurídico: servicios, áreas de práctica y contacto, moderno y adaptable.",
         },
         travelTracker: {
           title: "Travel Tracker",

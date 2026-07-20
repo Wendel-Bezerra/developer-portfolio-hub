@@ -1,24 +1,23 @@
-import { BackLink } from "@/components/BackLink";
-import { PageShell } from "@/components/layout/PageShell";
+import { Reveal } from "@/components/Reveal";
 import { PROFILE } from "@/data/profile";
 import { PROJECTS } from "@/data/projects";
 import { useI18n } from "@/i18n/I18nProvider";
 
-export default function Projects() {
+export function ProjectsSection() {
   const { t } = useI18n();
 
   return (
-    <PageShell>
-      <div className="max-w-4xl flex-1 animate-fade-up px-6 pb-24 pt-6 md:px-14">
-        <BackLink />
-
-        <h1 className="cursor mb-4 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
+    <div className="max-w-4xl px-6 md:px-14">
+      <Reveal>
+        <h2 className="cursor mb-4 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
           {t("projects.title")}
-        </h1>
+        </h2>
+      </Reveal>
 
-        <ul className="flex flex-col">
-          {PROJECTS.map((project) => (
-            <li key={project.key}>
+      <ul className="flex flex-col">
+        {PROJECTS.map((project, i) => (
+          <li key={project.key}>
+            <Reveal delay={i * 70}>
               <a
                 href={project.url}
                 target="_blank"
@@ -41,10 +40,12 @@ export default function Projects() {
                   {t(`projects.kinds.${project.kind}`)} ↗
                 </span>
               </a>
-            </li>
-          ))}
-        </ul>
+            </Reveal>
+          </li>
+        ))}
+      </ul>
 
+      <Reveal>
         <a
           href={PROFILE.github}
           target="_blank"
@@ -53,7 +54,7 @@ export default function Projects() {
         >
           {t("projects.moreOnGithub")} ↗
         </a>
-      </div>
-    </PageShell>
+      </Reveal>
+    </div>
   );
 }
