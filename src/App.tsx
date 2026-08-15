@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import { ScrollToHash } from "@/components/ScrollToHash";
 import { I18nProvider } from "@/i18n/I18nProvider";
-import { RaysBackground } from "@/components/layout/RaysBackground";
 import { LANGS, ROUTES, type RouteKey } from "@/i18n/routes";
 import { SECTION_IDS } from "@/sections/anchors";
 
@@ -22,7 +21,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <div className="relative min-h-screen">
-          <RaysBackground />
           <div className="relative z-10">
             <I18nProvider>
               <ScrollToHash />

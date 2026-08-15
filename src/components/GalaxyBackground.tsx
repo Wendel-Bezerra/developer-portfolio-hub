@@ -1,14 +1,20 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 
-const SideRays = lazy(() => import("@/components/SideRays"));
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-export function RaysBackground() {
+const TwinGalaxyRings = lazy(() => import("@/components/TwinGalaxyRings"));
+
+/**
+ * Fundo de galáxia do hero. Segue o mesmo padrão do antigo RaysBackground:
+ * só monta o canvas WebGL depois de um idle callback e nunca quando o usuário
+ * pede movimento reduzido.
+ */
+export function GalaxyBackground() {
   const [enabled, setEnabled] = useState(false);
+  const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
-    // Evita trabalho extra em dispositivos/usuários que pedem menos animação.
-    if (reduceMotion) return;
+    if (reduced) return;
 
     let timeoutId: number | undefined;
     let idleId: number | undefined;
@@ -23,13 +29,15 @@ export function RaysBackground() {
       if (idleId != null && "cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
       if (timeoutId != null) window.clearTimeout(timeoutId);
     };
-  }, []);
+  }, [reduced]);
+
+  if (reduced) return null;
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {enabled ? (
         <Suspense fallback={null}>
-          <SideRays className="absolute inset-0 h-full w-full" speed={2.5} opacity={1} />
+          <TwinGalaxyRings background="transparent" style={{ position: "absolute", inset: 0 }} />
         </Suspense>
       ) : null}
     </div>

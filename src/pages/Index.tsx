@@ -2,6 +2,8 @@ import { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 
 import { ScrollProgressLine } from "@/components/ScrollProgressLine";
+import { GalaxyBackground } from "@/components/GalaxyBackground";
+import { GalaxyCurtain } from "@/components/GalaxyCurtain";
 import { PageShell } from "@/components/layout/PageShell";
 import { PROFILE } from "@/data/profile";
 import { useActiveSection } from "@/hooks/useActiveSection";
@@ -51,7 +53,7 @@ const Index = () => {
 
   return (
     <PageShell>
-      <ScrollProgressLine
+<ScrollProgressLine
         sections={entries.map((entry) => ({
           id: SECTION_IDS[entry.key],
           index: entry.index,
@@ -62,8 +64,11 @@ const Index = () => {
 
       <section
         id="home"
-        className="flex min-h-[72vh] animate-fade-up flex-col justify-center px-6 pb-20 pt-8 md:px-14 md:pb-20"
+        className="relative flex min-h-[72vh] animate-fade-up flex-col justify-center px-6 pb-20 pt-8 md:px-14 md:pb-20"
       >
+        <GalaxyBackground />
+        <GalaxyCurtain triggerId="home" targetId={SECTION_IDS.about} />
+
         <h1 className="font-display text-[46px] font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-6xl md:text-[86px]">
           {PROFILE.name}
           <span className="animate-blink font-normal text-dim motion-reduce:animate-none">_</span>

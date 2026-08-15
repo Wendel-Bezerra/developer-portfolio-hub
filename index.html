@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#050505" />
+    <meta name="theme-color" content="#050A14" />
     <meta name="color-scheme" content="dark" />
     <title>Wendel Campos Bezerra | Desenvolvedor Full Stack</title>
     <meta name="description" content="Wendel Campos Bezerra - Desenvolvedor Full Stack especializado em Java, Node.js, React e Python. Confira meus projetos e entre em contato." />
@@ -19,19 +19,83 @@
     <meta property="og:description" content="Desenvolvedor Full Stack especializado em Java, Node.js, React e Python." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.wendelcb.dev/" />
-    <meta property="og:image" content="https://www.wendelcb.dev/og-image.svg" />
+    <meta property="og:image" content="https://www.wendelcb.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Prévia do portfólio de Wendel Campos Bezerra" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Wendel Campos Bezerra | Desenvolvedor Full Stack" />
     <meta name="twitter:description" content="Desenvolvedor Full Stack especializado em Java, Node.js, React e Python." />
-    <meta name="twitter:image" content="https://www.wendelcb.dev/og-image.svg" />
+    <meta name="twitter:image" content="https://www.wendelcb.dev/og-image.png" />
 
     <link rel="canonical" href="https://www.wendelcb.dev/" />
     <link rel="alternate" hreflang="pt-BR" href="https://www.wendelcb.dev/" />
     <link rel="alternate" hreflang="en" href="https://www.wendelcb.dev/en" />
     <link rel="alternate" hreflang="es" href="https://www.wendelcb.dev/es" />
     <link rel="alternate" hreflang="x-default" href="https://www.wendelcb.dev/" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://www.wendelcb.dev/#person",
+          "name": "Wendel Campos Bezerra",
+          "jobTitle": "Desenvolvedor Full Stack",
+          "url": "https://www.wendelcb.dev/",
+          "email": "mailto:wendel.2929@gmail.com",
+          "sameAs": [
+            "https://github.com/Wendel-Bezerra",
+            "https://www.linkedin.com/in/wendelcamposbezerra/"
+          ],
+          "knowsAbout": ["Java", "Spring Boot", "Node.js", "React", "TypeScript", "Python", "PostgreSQL", "Docker", "AWS"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.wendelcb.dev/#website",
+          "url": "https://www.wendelcb.dev/",
+          "name": "Wendel Campos Bezerra | Desenvolvedor Full Stack",
+          "inLanguage": ["pt-BR", "en", "es"],
+          "author": { "@id": "https://www.wendelcb.dev/#person" }
+        }
+      ]
+    }
+    </script>
+
+    <script>
+      // Ajusta título/descrição por idioma antes do app montar (o HTML servido
+      // é o mesmo para /, /en e /es).
+      (function () {
+        var p = location.pathname;
+        var meta = null;
+        if (p === "/en" || p.indexOf("/en/") === 0) {
+          meta = {
+            title: "Wendel Campos Bezerra | Full Stack Developer",
+            desc: "Wendel Campos Bezerra - Full Stack Developer specialized in Java, Node.js, React and Python. Check out my projects and get in touch."
+          };
+        } else if (p === "/es" || p.indexOf("/es/") === 0) {
+          meta = {
+            title: "Wendel Campos Bezerra | Desarrollador Full Stack",
+            desc: "Wendel Campos Bezerra - Desarrollador Full Stack especializado en Java, Node.js, React y Python. Mira mis proyectos y ponte en contacto."
+          };
+        }
+        if (!meta) return;
+        document.title = meta.title;
+        var set = function (sel, value) {
+          var el = document.querySelector(sel);
+          if (el) el.setAttribute("content", value);
+        };
+        set('meta[name="description"]', meta.desc);
+        set('meta[property="og:title"]', meta.title);
+        set('meta[property="og:description"]', meta.desc);
+        set('meta[name="twitter:title"]', meta.title);
+        set('meta[name="twitter:description"]', meta.desc);
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute("href", "https://www.wendelcb.dev" + p);
+      })();
+    </script>
   </head>
 
   <body>

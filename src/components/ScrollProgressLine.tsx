@@ -34,6 +34,16 @@ export function ScrollProgressLine({
   const [railHeight, setRailHeight] = useState(0);
   const [offsets, setOffsets] = useState<number[]>([]);
 
+  // Só aparece depois que o usuário começa a rolar; na tela inicial fica oculto.
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 24);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const sectionKey = sections.map((section) => section.id).join("|");
 
   const measure = useCallback(() => {
@@ -86,7 +96,10 @@ export function ScrollProgressLine({
     <div
       ref={railRef}
       aria-hidden="true"
-      className="pointer-events-none fixed bottom-[22vh] right-8 top-[22vh] z-10 hidden w-px lg:block"
+      className={cn(
+        "pointer-events-none fixed bottom-[22vh] right-8 top-[22vh] z-10 hidden w-px transition-opacity duration-500 lg:block",
+        scrolled ? "opacity-100" : "opacity-0",
+      )}
     >
       <svg className="h-full w-px" width="1" height="100%">
         <line

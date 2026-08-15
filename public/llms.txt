@@ -1,0 +1,29 @@
+# Wendel Campos Bezerra — Desenvolvedor Full Stack
+
+> Portfólio de Wendel Campos Bezerra, desenvolvedor Full Stack brasileiro
+> especializado em Java, Node.js, React e Python. Site disponível em
+> português (/), inglês (/en) e espanhol (/es).
+
+## Sobre
+
+- Nome: Wendel Campos Bezerra
+- Função: Desenvolvedor Full Stack
+- Backend: Java, Spring Boot, Node.js, Express, Python, GraphQL
+- Frontend: React, TypeScript, Next.js, TailwindCSS, HTML5, CSS3, JavaScript
+- Banco de dados: PostgreSQL, MongoDB, MySQL, Prisma, TypeORM
+- DevOps e ferramentas: Git, Docker, AWS, CI/CD, Jest, Postman
+
+## Projetos
+
+- [Despesas (2026)](https://despesas-alpha-seven.vercel.app/): controle de despesas — React, TypeScript, Vite, Tailwind
+- [Facilize (2025)](https://www.facilize.com.br/): plataforma full stack — React, Node.js
+- [AJB Advocacia (2024)](https://www.ajbadvocacia.com.br/): site institucional — React, Node.js
+- [Travel Tracker (2024)](https://github.com/Wendel-Bezerra/wanderlust-map): mapa de viagens — React, Node.js, APIs de mapas
+- [Bet Tracker (2023)](https://github.com/Wendel-Bezerra/bet-tracker): rastreador de apostas — React, Node.js, TypeScript
+
+## Contato
+
+- E-mail: wendel.2929@gmail.com
+- GitHub: https://github.com/Wendel-Bezerra
+- LinkedIn: https://www.linkedin.com/in/wendelcamposbezerra/
+- Currículo (PDF): https://www.wendelcb.dev/curriculo.pdf

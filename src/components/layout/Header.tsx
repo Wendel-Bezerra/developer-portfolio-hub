@@ -15,8 +15,10 @@ export function Header() {
   const handleLanguageToggle = () => {
     const target = nextLang(lang);
     // Mantém a tela atual ao trocar de idioma; rota desconhecida cai na home.
+    // O hash é descartado de propósito: preservá-lo faria o ScrollToHash rolar
+    // até uma âncora antiga em vez de manter a posição atual.
     const key = routeKeyFor(location.pathname) ?? "home";
-    navigate(`${pathFor(target, key)}${location.search}${location.hash}`);
+    navigate(`${pathFor(target, key)}${location.search}`);
   };
 
   return (
