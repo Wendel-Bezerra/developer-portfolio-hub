@@ -1,7 +1,7 @@
 export const PROFILE = {
   name: "Wendel Campos Bezerra",
   handle: "wendel bezerra",
-  email: "wendel.2929@gmail.com",
+  email: "wendel.29@hotmail.com",
   github: "https://github.com/Wendel-Bezerra",
   linkedin: "https://www.linkedin.com/in/wendelcamposbezerra/",
   resume: "/curriculo.pdf",
