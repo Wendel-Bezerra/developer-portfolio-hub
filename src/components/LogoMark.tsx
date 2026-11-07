@@ -2,7 +2,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * Símbolo da marca: o "W" como zigue-zague de código, fechado pelo cursor
- * de terminal. Inline (e não <img>) para herdar a cor do contexto.
+ * de terminal em vermelho. Inline (e não <img>) para o "W" herdar a cor do
+ * contexto; o cursor fica sempre vermelho, como o do nome no hero.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -16,11 +17,11 @@ export function LogoMark({ className }: { className?: string }) {
       <path
         d="M92 176 L154 336 L216 176 L278 336 L340 176"
         stroke="currentColor"
-        strokeWidth={42}
+        strokeWidth={46}
         strokeLinecap="butt"
         strokeLinejoin="miter"
       />
-      <rect x={368} y={308} width={56} height={28} rx={6} fill="currentColor" />
+      <rect x={368} y={306} width={56} height={30} rx={6} fill="hsl(var(--poppy))" />
     </svg>
   );
 }

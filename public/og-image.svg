@@ -1,14 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="#050505" />
-  <path d="M1200 0 L560 630 L780 630 L1200 140 Z" fill="#FFFFFF" opacity="0.03" />
-  <path d="M1200 0 L820 630 L980 630 L1200 260 Z" fill="#FFFFFF" opacity="0.04" />
+  <rect width="1200" height="630" fill="#0C0D0D" />
+  <path d="M1200 0 L560 630 L780 630 L1200 140 Z" fill="#B0E0E6" opacity="0.035" />
+  <path d="M1200 0 L820 630 L980 630 L1200 260 Z" fill="#B0E0E6" opacity="0.05" />
   <g transform="translate(80 88) scale(0.2)">
-    <path d="M92 176 L154 336 L216 176 L278 336 L340 176" fill="none" stroke="#F2F2F2" stroke-width="42" stroke-linecap="butt" stroke-linejoin="miter" />
-    <rect x="368" y="308" width="56" height="28" rx="6" fill="#F2F2F2" />
+    <path d="M92 176 L154 336 L216 176 L278 336 L340 176" fill="none" stroke="#B0E0E6" stroke-width="46" stroke-linecap="butt" stroke-linejoin="miter" />
+    <rect x="368" y="306" width="56" height="30" rx="6" fill="#DC343B" />
   </g>
-  <text x="80" y="300" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="72" font-weight="600" letter-spacing="-2" fill="#F2F2F2">Wendel Campos Bezerra</text>
-  <text x="80" y="362" font-family="'JetBrains Mono',monospace" font-size="28" fill="#8F8F8F">full stack developer</text>
-  <rect x="80" y="420" width="120" height="1" fill="#2A2A2A" />
-  <text x="80" y="486" font-family="'JetBrains Mono',monospace" font-size="22" fill="#5A5A5A">React · TypeScript · Node.js · Java · Spring Boot</text>
-  <text x="80" y="548" font-family="'JetBrains Mono',monospace" font-size="22" fill="#5A5A5A">wendelcb.dev</text>
+  <text x="80" y="300" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="72" font-weight="600" letter-spacing="-2" fill="#EFF5F6">Wendel Campos Bezerra<tspan fill="#DC343B" font-weight="400">_</tspan></text>
+  <text x="80" y="362" font-family="'JetBrains Mono','Consolas',monospace" font-size="28" letter-spacing="3" fill="#B0E0E6">FULL STACK DEVELOPER</text>
+  <rect x="80" y="420" width="120" height="2" fill="#B0E0E6" opacity="0.5" />
+  <text x="80" y="486" font-family="'JetBrains Mono','Consolas',monospace" font-size="22" fill="#97ADB0">React · TypeScript · Node.js · Java · Spring Boot</text>
+  <text x="80" y="548" font-family="'JetBrains Mono','Consolas',monospace" font-size="22" fill="#66777A">wendelcb.dev</text>
+
+  <!-- Lutador em guarda, o mesmo do hero -->
+  <g transform="translate(880 92) scale(1.6)">
+    <path d="M130 192 L150 242 L162 290" fill="none" stroke="#7FB2B9" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M156 294 H180" stroke="#7FB2B9" stroke-width="10" stroke-linecap="round" />
+    <path d="M104 192 L86 242 L80 290" fill="none" stroke="#B0E0E6" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M66 294 H92" stroke="#B0E0E6" stroke-width="10" stroke-linecap="round" />
+    <path d="M90 170 H144 L152 214 L126 218 L118 200 L110 218 L84 214 Z" fill="#475F62" />
+    <path d="M90 172 H144" stroke="#EFF5F6" stroke-width="4" />
+    <path d="M130 106 L124 146" stroke="#7FB2B9" stroke-width="16" stroke-linecap="round" />
+    <path d="M88 100 C84 130 90 156 94 172 H140 C146 148 148 124 138 98 C124 88 100 88 88 100 Z" fill="#B0E0E6" />
+    <rect x="102" y="76" width="16" height="22" rx="6" fill="#B0E0E6" />
+    <circle cx="108" cy="60" r="22" fill="#B0E0E6" />
+    <path d="M88 64 Q84 70 90 74" fill="#B0E0E6" />
+    <path d="M94 56 H100" stroke="#0C0D0D" stroke-width="3" stroke-linecap="round" />
+    <path d="M124 146 L104 100" stroke="#7FB2B9" stroke-width="14" stroke-linecap="round" />
+    <g transform="rotate(-70 98 90)">
+      <rect x="106" y="82" width="8" height="16" rx="2" fill="#EFF5F6" />
+      <ellipse cx="96" cy="90" rx="14" ry="12" fill="#A3252B" />
+    </g>
+    <g transform="rotate(-55 94 106)">
+      <path d="M94 106 L54 106" stroke="#B0E0E6" stroke-width="16" stroke-linecap="round" />
+      <g transform="rotate(133 54 106)">
+        <path d="M54 106 L22 106" stroke="#B0E0E6" stroke-width="14" stroke-linecap="round" />
+        <rect x="18" y="97" width="9" height="18" rx="2" fill="#EFF5F6" />
+        <ellipse cx="8" cy="106" rx="15" ry="13" fill="#DC343B" />
+        <ellipse cx="11" cy="116" rx="7" ry="4" fill="#A3252B" />
+      </g>
+    </g>
+  </g>
 </svg>
