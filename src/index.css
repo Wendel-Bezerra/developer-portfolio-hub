@@ -4,43 +4,48 @@
 
 @layer base {
   :root {
-    /* Paleta monocromática — Portfolio v3 (P&B) */
-    --background: 220 60% 5%; /* #050A14 — azul-marinho do fundo da galáxia */
-    --foreground: 0 0% 95%; /* #F2F2F2 */
+    /* Paleta v4 — Raven Black, Powder Blue e Poppy Red (tema boxe) */
+    --background: 180 5% 5%; /* #0C0D0D — raven black, mais fundo */
+    --foreground: 187 30% 95%; /* #EFF5F6 */
 
-    --card: 220 45% 7%;
-    --card-foreground: 0 0% 95%;
+    --card: 186 6% 8%;
+    --card-foreground: 187 30% 95%;
 
-    --popover: 220 45% 7%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 186 6% 8%;
+    --popover-foreground: 187 30% 95%;
 
-    /* Em um site P&B a "cor de marca" é o próprio branco. */
-    --primary: 0 0% 95%;
-    --primary-foreground: 220 60% 5%;
+    /* Powder blue é a cor de marca: destaques de texto e foco. */
+    --primary: 187 52% 80%; /* #B0E0E6 — powder blue */
+    --primary-foreground: 180 5% 5%;
 
-    --secondary: 220 35% 11%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 186 7% 11%;
+    --secondary-foreground: 187 30% 95%;
 
-    --muted: 220 28% 15%;
-    --muted-foreground: 218 12% 60%;
+    --muted: 186 8% 14%;
+    --muted-foreground: 187 18% 66%;
 
-    --accent: 220 28% 15%;
-    --accent-foreground: 0 0% 95%;
+    --accent: 186 8% 14%;
+    --accent-foreground: 187 30% 95%;
 
-    --destructive: 0 72% 58%;
+    --destructive: 358 71% 53%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 25% 15%; /* tom navy no lugar do #202020 */
-    --input: 220 25% 15%;
-    --ring: 0 0% 56%;
+    --border: 187 10% 16%;
+    --input: 187 10% 16%;
+    --ring: 187 52% 80%;
 
     --radius: 0.5rem;
 
-    /* Tons de apoio do v3 */
-    --body: 218 12% 74%; /* texto corrido, levemente azulado */
-    --dim: 218 12% 38%; /* numeração, legendas */
+    /* Tons de apoio */
+    --body: 187 22% 78%; /* texto corrido, levemente azulado */
+    --dim: 187 8% 44%; /* numeração, legendas */
 
-    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Vermelho de uso pontual: luvas, impacto do jab e cursor do nome. */
+    --poppy: 358 71% 53%; /* #DC343B — poppy red */
+
+    /* Curvas fortes: as nativas do CSS não têm "punch". */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   }
 }
 
@@ -51,6 +56,25 @@
 
   html {
     scroll-behavior: smooth;
+    /* Sem o flash cinza do toque no mobile; cada controle tem o próprio :active. */
+    -webkit-tap-highlight-color: transparent;
+    /* Sem inflar a fonte ao girar o celular. */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Controles: toque responde na hora (sem a espera do duplo toque) e segurar
+     o dedo não seleciona o rótulo. Texto de conteúdo continua selecionável. */
+  button,
+  a,
+  [role="button"],
+  [role="tab"] {
+    touch-action: manipulation;
+  }
+
+  button,
+  [role="tab"] {
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   body {
@@ -58,7 +82,7 @@
   }
 
   ::selection {
-    @apply bg-foreground/20 text-foreground;
+    @apply bg-primary/25 text-foreground;
   }
 }
 
@@ -74,6 +98,7 @@
   /* Cursor de terminal piscando — assinatura da marca. */
   .cursor::after {
     content: '_';
+    color: hsl(var(--primary));
     @apply inline-block;
     animation: blink 1.2s step-end infinite;
   }
@@ -84,17 +109,28 @@
   }
 
   .link-line:hover {
-    @apply border-foreground text-foreground;
+    @apply border-primary text-primary;
   }
 
-  /* Linha de lista (projetos/stack): desliza para a direita no hover. */
+  /* Linha de lista (projetos): o conteúdo desliza para a direita no hover.
+     Move os filhos com transform (e não padding na linha) para não recalcular
+     layout e para a borda inferior continuar parada. */
   .row-slide {
-    @apply transition-all duration-250;
+    transition: color 200ms var(--ease-out);
   }
 
-  .row-slide:hover {
-    @apply text-foreground;
-    padding-left: 0.75rem;
+  .row-slide > * {
+    transition: transform 200ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row-slide:hover {
+      @apply text-foreground;
+    }
+
+    .row-slide:hover > * {
+      transform: translateX(0.75rem);
+    }
   }
 }
 
@@ -109,6 +145,35 @@
 
   .duration-250 {
     transition-duration: 250ms;
+  }
+}
+
+/* ---- Mini bonecos dos títulos (src/components/SectionMascots.tsx) ---- */
+
+/* Cachorro: inclina a cabeça, curioso, e volta. */
+@keyframes dog-tilt {
+  0%, 12%, 100% { transform: rotate(0deg); }
+  4%, 9% { transform: rotate(-12deg); }
+}
+
+/* Pixel art: pisca de vez em quando. */
+@keyframes pixel-blink {
+  0%, 92% { opacity: 1; }
+  93%, 96% { opacity: 0; }
+  97%, 100% { opacity: 1; }
+}
+
+.dog-tilt {
+  transform-origin: 50% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dog-tilt {
+    animation: dog-tilt 5s var(--ease-in-out) infinite;
+  }
+
+  .pixel-blink {
+    animation: pixel-blink 4s step-end infinite;
   }
 }
 

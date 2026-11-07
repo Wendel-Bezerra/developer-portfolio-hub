@@ -5,6 +5,11 @@ export const translations = {
     meta: {
       role: "full stack developer",
       location: "BR · GMT-3",
+      punchHint: "role ou clique no lutador",
+      fighterLabel: "Lutador: dar um jab no nome e ir para a próxima seção",
+      copy: "copiar",
+      copied: "copiado ✓",
+      copyAria: "Copiar e-mail",
     },
     nav: {
       about: "Sobre",
@@ -17,19 +22,58 @@ export const translations = {
     },
     about: {
       title: "Sobre",
-      p1Prefix: "Sou um desenvolvedor Full Stack apaixonado por criar ",
+      p1Prefix: "Sou desenvolvedor Full Stack e engenheiro de automação, apaixonado por criar ",
       p1Highlight: "soluções digitais que resolvem problemas reais",
       p1Suffix:
-        ". Minha jornada na programação começou há alguns anos, e desde então venho construindo aplicações web escaláveis e APIs robustas, além de automações e chatbots para otimizar processos e atendimento.",
-      p2Prefix: "Hoje meu foco está em ",
-      p2Highlight: "arquitetura de software",
-      p2Suffix:
-        " e boas práticas, porque acredito que código limpo e documentação clara valem tanto quanto a funcionalidade em si.",
-      aiPrefix: "É essa mesma base que sustenta o meu principal ponto forte: a ",
-      aiHighlight: "automação de processos com IA",
-      aiSuffix:
-        ". Integrações com LLMs, agentes e chatbots só entregam valor de verdade quando estão bem arquitetados, e é aí que eu junto as duas coisas para eliminar trabalho manual repetitivo e conectar sistemas que antes não conversavam entre si.",
-      p3: "Fora do código: explorando novas tecnologias, contribuindo com open source e compartilhando conhecimento com a comunidade dev.",
+        ". Gosto de entender o problema de ponta a ponta, do banco de dados à interface, sempre com foco em arquitetura de software e código limpo.",
+      servicesTitle: "O que eu faço",
+      services: {
+        sites: {
+          title: "Criação de sites",
+          desc: "Landing pages, sites institucionais e sistemas web rápidos, responsivos e feitos para converter.",
+        },
+        chatbots: {
+          title: "Chatbots",
+          desc: "Atendimento automatizado no WhatsApp e na web, integrado aos sistemas da empresa e funcionando 24h.",
+        },
+        rag: {
+          title: "RAG aplicado",
+          desc: "IA que responde com base nos documentos e dados da sua empresa, com respostas confiáveis e fontes citadas.",
+        },
+      },
+      personalTitle: "Fora do código",
+      personal: {
+        agePre: "Tenho ",
+        ageHl: "22 anos",
+        agePost: " e estou no último semestre de Engenharia de Software.",
+        dogPre: "Meu maior amor é o ",
+        dogHl: "Luffy",
+        dogPost: ", meu cachorro.",
+        boxPre: "E o ",
+        boxHl: "boxe mudou a minha vida",
+        boxPost:
+          ": me ensinou disciplina, constância e a levantar depois de cada queda. É dele que vem o lutador que você viu lá em cima.",
+      },
+      resumeTitle: "Currículo",
+      tabs: {
+        experience: "Experiência",
+        education: "Formação",
+      },
+      present: "atual",
+      promoted: "promovido",
+      fullResume: "Currículo completo",
+      jobs: {
+        gpEngineer: "Engenheiro II · Automação de Projetos",
+        gpIntern: "Estagiário de Desenvolvimento",
+        facilize: "Desenvolvedor Full Stack · Freelancer",
+      },
+      education: {
+        degree: "Engenharia de Software",
+        status: "Bacharelado · jul. 2022 — dez. 2026 (previsão)",
+        school: "Universidade Católica do Salvador (UCSAL)",
+        certTitle: "Residência em Software: Cloud Computing (AWS + Azure)",
+        certMeta: "CEPEDI · 300h · jul. — dez. 2024",
+      },
       stackTitle: "Stack",
       contactTitle: "Contato",
       stack: {
@@ -45,8 +89,19 @@ export const translations = {
       kinds: {
         site: "Site",
         code: "Código",
+        oss: "Contribuição",
       },
       items: {
+        botCrossing: {
+          title: "Bot Crossing",
+          description:
+            "Contribuição open source num jogo para agentes de IA: fiz a parte de Windows de abrir uma conversa no lugar certo. Se ela já está num terminal, a janela é trazida para a frente, subindo pela árvore de processos; se não, abre um terminal novo (Windows Terminal, com cmd.exe de reserva). Tudo via PowerShell codificado e argv validado, sem nenhuma string de shell.",
+        },
+        imperio: {
+          title: "Império do Samba",
+          description:
+            "Landing page do Império do Samba, bar de pagode em Salvador: programação do Soft Open, contagem regressiva para a abertura e confirmação de presença direto pelo WhatsApp.",
+        },
         despesas: {
           title: "Saldo",
           description:
@@ -88,6 +143,7 @@ export const translations = {
       },
       send: "Enviar mensagem",
       sending: "Enviando...",
+      sent: "Enviado ✓",
       toastSentTitle: "Mensagem enviada",
       toastSentDesc: "Obrigado! Vou te responder o mais rápido possível.",
       toastFailTitle: "Falha ao enviar",
@@ -119,6 +175,11 @@ export const translations = {
     meta: {
       role: "full stack developer",
       location: "BR · GMT-3",
+      punchHint: "scroll or click the fighter",
+      fighterLabel: "Fighter: throw a jab at the name and go to the next section",
+      copy: "copy",
+      copied: "copied ✓",
+      copyAria: "Copy email",
     },
     nav: {
       about: "About",
@@ -131,19 +192,58 @@ export const translations = {
     },
     about: {
       title: "About",
-      p1Prefix: "I’m a Full Stack developer passionate about building ",
+      p1Prefix: "I’m a Full Stack developer and automation engineer, passionate about building ",
       p1Highlight: "digital solutions that solve real problems",
       p1Suffix:
-        ". My programming journey started a few years ago, and since then I’ve been building scalable web apps and robust APIs, plus automations and chatbots to streamline processes and customer support.",
-      p2Prefix: "These days my focus is on ",
-      p2Highlight: "software architecture",
-      p2Suffix:
-        " and best practices, because I believe clean code and clear documentation matter as much as the functionality itself.",
-      aiPrefix: "That same foundation is what supports my strongest area: ",
-      aiHighlight: "process automation with AI",
-      aiSuffix:
-        ". LLM integrations, agents and chatbots only deliver real value when they are well architected, and that is where I bring the two together to remove repetitive manual work and connect systems that previously didn’t talk to each other.",
-      p3: "Outside the code: exploring new technologies, contributing to open source, and sharing knowledge with the dev community.",
+        ". I like understanding a problem end to end, from the database to the interface, always focused on software architecture and clean code.",
+      servicesTitle: "What I do",
+      services: {
+        sites: {
+          title: "Websites",
+          desc: "Landing pages, company websites and web systems that are fast, responsive and built to convert.",
+        },
+        chatbots: {
+          title: "Chatbots",
+          desc: "Automated support on WhatsApp and the web, integrated with the company’s systems and running 24/7.",
+        },
+        rag: {
+          title: "Applied RAG",
+          desc: "AI that answers from your company’s own documents and data, with reliable answers and cited sources.",
+        },
+      },
+      personalTitle: "Outside the code",
+      personal: {
+        agePre: "I’m ",
+        ageHl: "22 years old",
+        agePost: " and in the final semester of my Software Engineering degree.",
+        dogPre: "My greatest love is ",
+        dogHl: "Luffy",
+        dogPost: ", my dog.",
+        boxPre: "And ",
+        boxHl: "boxing changed my life",
+        boxPost:
+          ": it taught me discipline, consistency and how to get back up after every fall. That’s where the fighter you saw up top comes from.",
+      },
+      resumeTitle: "Résumé",
+      tabs: {
+        experience: "Experience",
+        education: "Education",
+      },
+      present: "present",
+      promoted: "promoted",
+      fullResume: "Full résumé",
+      jobs: {
+        gpEngineer: "Engineer II · Project Automation",
+        gpIntern: "Development Intern",
+        facilize: "Full Stack Developer · Freelance",
+      },
+      education: {
+        degree: "Software Engineering",
+        status: "Bachelor’s · Jul 2022 — Dec 2026 (expected)",
+        school: "Catholic University of Salvador (UCSAL)",
+        certTitle: "Software Residency: Cloud Computing (AWS + Azure)",
+        certMeta: "CEPEDI · 300h · Jul — Dec 2024",
+      },
       stackTitle: "Stack",
       contactTitle: "Contact",
       stack: {
@@ -159,8 +259,19 @@ export const translations = {
       kinds: {
         site: "Site",
         code: "Code",
+        oss: "Contribution",
       },
       items: {
+        botCrossing: {
+          title: "Bot Crossing",
+          description:
+            "Open source contribution to a video game for AI agents: I built the Windows side of opening a thread in the right place. If it already lives in a terminal, its window is brought to the front by walking up the process tree; if not, a new terminal opens (Windows Terminal, with cmd.exe as fallback). All through encoded PowerShell and a validated argv, with no shell string parsed anywhere.",
+        },
+        imperio: {
+          title: "Império do Samba",
+          description:
+            "Landing page for Império do Samba, a pagode bar in Salvador: Soft Open lineup, opening countdown and RSVP straight through WhatsApp.",
+        },
         despesas: {
           title: "Saldo",
           description:
@@ -201,6 +312,7 @@ export const translations = {
       },
       send: "Send message",
       sending: "Sending...",
+      sent: "Sent ✓",
       toastSentTitle: "Message sent",
       toastSentDesc: "Thanks! I’ll reply as soon as possible.",
       toastFailTitle: "Send failed",
@@ -232,6 +344,11 @@ export const translations = {
     meta: {
       role: "full stack developer",
       location: "BR · GMT-3",
+      punchHint: "desplázate o haz clic en el boxeador",
+      fighterLabel: "Boxeador: lanzar un jab al nombre e ir a la siguiente sección",
+      copy: "copiar",
+      copied: "copiado ✓",
+      copyAria: "Copiar correo",
     },
     nav: {
       about: "Sobre mí",
@@ -244,19 +361,58 @@ export const translations = {
     },
     about: {
       title: "Sobre mí",
-      p1Prefix: "Soy un desarrollador Full Stack apasionado por crear ",
+      p1Prefix: "Soy desarrollador Full Stack e ingeniero de automatización, apasionado por crear ",
       p1Highlight: "soluciones digitales que resuelven problemas reales",
       p1Suffix:
-        ". Mi camino en la programación comenzó hace algunos años y desde entonces construyo aplicaciones web escalables y APIs robustas, además de automatizaciones y chatbots para optimizar procesos y atención.",
-      p2Prefix: "Hoy mi foco está en la ",
-      p2Highlight: "arquitectura de software",
-      p2Suffix:
-        " y las buenas prácticas, porque creo que el código limpio y la documentación clara valen tanto como la funcionalidad en sí.",
-      aiPrefix: "Esa misma base es la que sostiene mi principal punto fuerte: la ",
-      aiHighlight: "automatización de procesos con IA",
-      aiSuffix:
-        ". Las integraciones con LLMs, los agentes y los chatbots solo entregan valor real cuando están bien arquitectados, y ahí es donde uno las dos cosas para eliminar trabajo manual repetitivo y conectar sistemas que antes no se comunicaban entre sí.",
-      p3: "Fuera del código: explorando nuevas tecnologías, contribuyendo al open source y compartiendo conocimiento con la comunidad dev.",
+        ". Me gusta entender el problema de punta a punta, de la base de datos a la interfaz, siempre con foco en arquitectura de software y código limpio.",
+      servicesTitle: "Lo que hago",
+      services: {
+        sites: {
+          title: "Creación de sitios web",
+          desc: "Landing pages, sitios institucionales y sistemas web rápidos, responsivos y pensados para convertir.",
+        },
+        chatbots: {
+          title: "Chatbots",
+          desc: "Atención automatizada en WhatsApp y en la web, integrada a los sistemas de la empresa y funcionando 24h.",
+        },
+        rag: {
+          title: "RAG aplicado",
+          desc: "IA que responde con base en los documentos y datos de tu empresa, con respuestas confiables y fuentes citadas.",
+        },
+      },
+      personalTitle: "Fuera del código",
+      personal: {
+        agePre: "Tengo ",
+        ageHl: "22 años",
+        agePost: " y estoy en el último semestre de Ingeniería de Software.",
+        dogPre: "Mi mayor amor es ",
+        dogHl: "Luffy",
+        dogPost: ", mi perro.",
+        boxPre: "Y el ",
+        boxHl: "boxeo cambió mi vida",
+        boxPost:
+          ": me enseñó disciplina, constancia y a levantarme después de cada caída. De ahí viene el boxeador que viste allá arriba.",
+      },
+      resumeTitle: "Currículum",
+      tabs: {
+        experience: "Experiencia",
+        education: "Formación",
+      },
+      present: "actual",
+      promoted: "ascendido",
+      fullResume: "Currículum completo",
+      jobs: {
+        gpEngineer: "Ingeniero II · Automatización de Proyectos",
+        gpIntern: "Pasante de Desarrollo",
+        facilize: "Desarrollador Full Stack · Freelance",
+      },
+      education: {
+        degree: "Ingeniería de Software",
+        status: "Grado · jul. 2022 — dic. 2026 (previsto)",
+        school: "Universidad Católica de Salvador (UCSAL)",
+        certTitle: "Residencia en Software: Cloud Computing (AWS + Azure)",
+        certMeta: "CEPEDI · 300h · jul. — dic. 2024",
+      },
       stackTitle: "Stack",
       contactTitle: "Contacto",
       stack: {
@@ -272,8 +428,19 @@ export const translations = {
       kinds: {
         site: "Sitio",
         code: "Código",
+        oss: "Contribución",
       },
       items: {
+        botCrossing: {
+          title: "Bot Crossing",
+          description:
+            "Contribución open source a un videojuego para agentes de IA: hice la parte de Windows de abrir una conversación en el lugar correcto. Si ya está en una terminal, su ventana pasa al frente recorriendo el árbol de procesos; si no, se abre una terminal nueva (Windows Terminal, con cmd.exe de respaldo). Todo vía PowerShell codificado y argv validado, sin interpretar ningún string de shell.",
+        },
+        imperio: {
+          title: "Império do Samba",
+          description:
+            "Landing page de Império do Samba, bar de pagode en Salvador: programación del Soft Open, cuenta regresiva para la apertura y confirmación de asistencia directo por WhatsApp.",
+        },
         despesas: {
           title: "Saldo",
           description:
@@ -315,6 +482,7 @@ export const translations = {
       },
       send: "Enviar mensaje",
       sending: "Enviando...",
+      sent: "Enviado ✓",
       toastSentTitle: "Mensaje enviado",
       toastSentDesc: "¡Gracias! Te responderé lo antes posible.",
       toastFailTitle: "Error al enviar",

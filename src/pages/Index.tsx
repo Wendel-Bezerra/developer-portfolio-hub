@@ -1,9 +1,8 @@
 import { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 
+import { BoxingTitle } from "@/components/BoxingTitle";
 import { ScrollProgressLine } from "@/components/ScrollProgressLine";
-import { GalaxyBackground } from "@/components/GalaxyBackground";
-import { GalaxyCurtain } from "@/components/GalaxyCurtain";
 import { PageShell } from "@/components/layout/PageShell";
 import { PROFILE } from "@/data/profile";
 import { useActiveSection } from "@/hooks/useActiveSection";
@@ -21,13 +20,15 @@ const ContactSection = lazy(() =>
   import("@/sections/ContactSection").then((m) => ({ default: m.ContactSection })),
 );
 
-type MenuEntry = { index: string; key: SectionKey; label: string };
+const HERO_ENTER = "animate-fade-up [animation-fill-mode:both] motion-reduce:animate-fade-in";
+
+type MenuEntry ={ index: string; key: SectionKey; label: string };
 
 function MenuLink({ entry, lang }: { entry: MenuEntry; lang: Lang }) {
   return (
     <Link
       to={`${pathFor(lang, "home")}#${SECTION_IDS[entry.key]}`}
-      className="group flex items-baseline gap-5 py-1.5 text-muted-foreground transition-all duration-250 hover:translate-x-3.5 hover:text-foreground md:gap-6"
+      className="group flex items-baseline gap-5 py-1.5 text-muted-foreground transition-[transform,color] duration-250 ease-out-strong hover:translate-x-3.5 hover:text-primary md:gap-6"
     >
       <span className="mono text-xs text-dim transition-colors duration-250 group-hover:text-muted-foreground md:text-sm">
         {entry.index}
@@ -64,36 +65,44 @@ const Index = () => {
 
       <section
         id="home"
-        className="relative flex min-h-[72vh] animate-fade-up flex-col justify-center px-6 pb-20 pt-8 md:px-14 md:pb-20"
+        className="relative flex min-h-[72svh] flex-col justify-center px-6 pb-20 pt-8 md:px-14 md:pb-20"
       >
-        <GalaxyBackground />
-        <GalaxyCurtain triggerId="home" targetId={SECTION_IDS.about} />
+        {/* A entrada do hero é coreografada: o nome e o lutador entram pelo
+            BoxingTitle; cargo e menu vêm logo depois, em cascata. */}
+        <BoxingTitle
+          name={PROFILE.name}
+          targetId={SECTION_IDS.about}
+          hint={t("meta.punchHint")}
+          fighterLabel={t("meta.fighterLabel")}
+        />
 
-        <h1 className="font-display text-[46px] font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-6xl md:text-[86px]">
-          {PROFILE.name}
-          <span className="animate-blink font-normal text-dim motion-reduce:animate-none">_</span>
-        </h1>
-
-        <p className="mono mb-12 mt-4 text-base uppercase tracking-[0.16em] text-muted-foreground md:mb-14 md:mt-5 md:text-lg">
+        <p
+          className={`mono mb-12 mt-4 text-base uppercase tracking-[0.16em] text-primary md:mb-14 md:mt-5 md:text-lg ${HERO_ENTER}`}
+          style={{ animationDelay: "450ms" }}
+        >
           {t("meta.role")}
         </p>
 
         <nav className="flex flex-col items-start gap-1 md:gap-2">
-          {entries.map((entry) => (
-            <MenuLink key={entry.key} entry={entry} lang={lang} />
+          {entries.map((entry, i) => (
+            // A animação fica no wrapper: com fill-mode o keyframe travaria o
+            // transform do link e anularia o deslize do hover.
+            <div key={entry.key} className={HERO_ENTER} style={{ animationDelay: `${520 + i * 60}ms` }}>
+              <MenuLink entry={entry} lang={lang} />
+            </div>
           ))}
         </nav>
       </section>
 
-      <section id={SECTION_IDS.about} className="scroll-mt-8 py-24 md:py-32">
+      <section id={SECTION_IDS.about} className="scroll-mt-8 py-16 sm:py-24 md:py-32">
         <AboutSection />
       </section>
 
-      <section id={SECTION_IDS.projects} className="scroll-mt-8 py-24 md:py-32">
+      <section id={SECTION_IDS.projects} className="scroll-mt-8 py-16 sm:py-24 md:py-32">
         <ProjectsSection />
       </section>
 
-      <section id={SECTION_IDS.contact} className="scroll-mt-8 py-24 md:py-32">
+      <section id={SECTION_IDS.contact} className="scroll-mt-8 py-16 sm:py-24 md:py-32">
         <Suspense fallback={<div className="min-h-[720px]" />}>
           <ContactSection />
         </Suspense>

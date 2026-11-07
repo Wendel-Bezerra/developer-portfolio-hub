@@ -5,6 +5,11 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  // `hover:` só vale em dispositivos com hover de verdade; no toque ele
+  // ficava "grudado" depois do tap.
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     container: {
       center: true,
@@ -27,6 +32,7 @@ export default {
         foreground: "hsl(var(--foreground))",
         body: "hsl(var(--body))",
         dim: "hsl(var(--dim))",
+        poppy: "hsl(var(--poppy))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -56,6 +62,10 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      transitionTimingFunction: {
+        "out-strong": "var(--ease-out)",
+        "in-out-strong": "var(--ease-in-out)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -82,6 +92,24 @@ export default {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        // Troca de rótulo: o blur funde o texto novo com o antigo.
+        "label-in": {
+          "0%": { opacity: "0", filter: "blur(2px)" },
+          "100%": { opacity: "1", filter: "blur(0)" },
+        },
+        // "Esquiva" do botão quando o envio falha.
+        dodge: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "20%": { transform: "translateX(-4px)" },
+          "40%": { transform: "translateX(4px)" },
+          "60%": { transform: "translateX(-3px)" },
+          "80%": { transform: "translateX(2px)" },
+        },
+        // Pulso do marcador quando a seção ativa muda.
+        "marker-pulse": {
+          "0%, 100%": { transform: "scale(1)" },
+          "40%": { transform: "scale(1.6)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -89,6 +117,9 @@ export default {
         blink: "blink 1.2s step-end infinite",
         "fade-up": "fade-up 0.5s ease-out forwards",
         "fade-in": "fade-in 0.4s ease-out forwards",
+        "label-in": "label-in 0.2s var(--ease-out) both",
+        dodge: "dodge 0.3s ease-in-out",
+        "marker-pulse": "marker-pulse 0.25s var(--ease-out)",
       },
     },
   },

@@ -3,7 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { CopyButton } from "@/components/CopyButton";
+import { MorphLabel } from "@/components/MorphLabel";
 import { Reveal } from "@/components/Reveal";
+import { PixelMe } from "@/components/SectionMascots";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -11,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { PROFILE } from "@/data/profile";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/i18n/I18nProvider";
+import { cn } from "@/lib/utils";
 
 type ContactValues = {
   name: string;
@@ -45,6 +49,19 @@ export function ContactSection() {
   const turnstileWidgetIdRef = useRef<string | null>(null);
   const turnstileEnabled = String(import.meta.env.VITE_TURNSTILE_ENABLED ?? "true").toLowerCase() === "true";
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
+
+  // Retorno dentro do próprio botão, além do toast: "enviado ✓" ou a esquiva.
+  const [feedback, setFeedback] = useState<"sent" | "error" | null>(null);
+  const feedbackTimeoutRef = useRef<number>();
+  useEffect(() => () => window.clearTimeout(feedbackTimeoutRef.current), []);
+
+  const flash = (kind: "sent" | "error") => {
+    window.clearTimeout(feedbackTimeoutRef.current);
+    // Zera antes de aplicar para a esquiva repetir em erros seguidos.
+    setFeedback(null);
+    requestAnimationFrame(() => setFeedback(kind));
+    feedbackTimeoutRef.current = window.setTimeout(() => setFeedback(null), 2000);
+  };
 
   const contactSchema = z.object({
     name: z
@@ -133,6 +150,7 @@ export function ContactSection() {
         title: t("contactPage.toastFailTitle"),
         description: t("contactPage.captchaMissingKey"),
       });
+      flash("error");
       return;
     }
 
@@ -142,6 +160,7 @@ export function ContactSection() {
         title: t("contactPage.toastFailTitle"),
         description: t("contactPage.captchaLoadError"),
       });
+      flash("error");
       return;
     }
 
@@ -151,6 +170,7 @@ export function ContactSection() {
         title: t("contactPage.toastFailTitle"),
         description: t("contactPage.captchaPending"),
       });
+      flash("error");
       return;
     }
 
@@ -177,6 +197,7 @@ export function ContactSection() {
         title: t("contactPage.toastSentTitle"),
         description: t("contactPage.toastSentDesc"),
       });
+      flash("sent");
       honeypotRef.current = "";
       formStartedAtRef.current = Date.now();
       setCaptchaToken("");
@@ -191,6 +212,7 @@ export function ContactSection() {
         title: t("contactPage.toastFailTitle"),
         description: err instanceof Error ? err.message : t("contactPage.toastFailDesc"),
       });
+      flash("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -199,8 +221,9 @@ export function ContactSection() {
   return (
     <div className="max-w-2xl px-6 md:px-14">
       <Reveal>
-        <h2 className="cursor mb-6 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
+        <h2 className="mb-6 font-display text-4xl font-semibold tracking-[-0.03em] md:text-[52px]">
           {t("contactPage.title")}
+          <PixelMe />
         </h2>
 
         <p className="mb-10 text-base leading-[1.8] text-body">{t("contactPage.description")}</p>
@@ -300,15 +323,32 @@ export function ContactSection() {
             )}
 
             <div className="flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <a
-                href={`mailto:${PROFILE.email}`}
-                className="mono text-[13px] text-muted-foreground transition-colors duration-250 hover:text-foreground"
-              >
-                {PROFILE.email}
-              </a>
+              <span className="flex items-baseline gap-3">
+                <a
+                  href={`mailto:${PROFILE.email}`}
+                  className="mono text-[13px] text-muted-foreground transition-colors duration-250 hover:text-foreground"
+                >
+                  {PROFILE.email}
+                </a>
+                <CopyButton text={PROFILE.email} />
+              </span>
 
-              <Button type="submit" variant="hero" disabled={isSubmitting} className="w-full sm:w-auto">
-                {isSubmitting ? t("contactPage.sending") : t("contactPage.send")}
+              <Button
+                type="submit"
+                variant="hero"
+                disabled={isSubmitting}
+                className={cn(
+                  "w-full sm:w-auto",
+                  feedback === "error" && "animate-dodge motion-reduce:animate-none",
+                )}
+              >
+                <MorphLabel>
+                  {isSubmitting
+                    ? t("contactPage.sending")
+                    : feedback === "sent"
+                      ? t("contactPage.sent")
+                      : t("contactPage.send")}
+                </MorphLabel>
               </Button>
             </div>
           </form>

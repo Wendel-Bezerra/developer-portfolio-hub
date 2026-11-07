@@ -1,8 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 
+import { Fighter, type FighterHandle } from "@/components/Fighter";
+import { POSES } from "@/components/fighterGeometry";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { cn } from "@/lib/utils";
+
+/** Pose do mascote em cada round (índice da seção ativa). */
+const ROUND_POSES = ["guard", "jab", "victory"] as const;
 
 export type ProgressSection = {
   /** id da <section> correspondente no documento. */
@@ -30,6 +36,8 @@ export function ScrollProgressLine({
   const reducedMotion = usePrefersReducedMotion();
   const railRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<SVGLineElement>(null);
+  const mascotRef = useRef<HTMLDivElement>(null);
+  const fighterRef = useRef<FighterHandle>(null);
   const railHeightRef = useRef(0);
   const [railHeight, setRailHeight] = useState(0);
   const [offsets, setOffsets] = useState<number[]>([]);
@@ -83,12 +91,64 @@ export function ScrollProgressLine({
     };
   }, [measure, reducedMotion]);
 
-  // Escrita direta no style: o traço acompanha o scroll sem re-render do React.
+  // Escrita direta no style: o traço e o mascote acompanham o scroll sem
+  // re-render do React.
   useScrollProgress((progress) => {
     const line = progressRef.current;
-    if (!line) return;
-    line.style.strokeDashoffset = String(railHeightRef.current * (1 - progress));
+    if (line) line.style.strokeDashoffset = String(railHeightRef.current * (1 - progress));
+    const mascot = mascotRef.current;
+    if (mascot) mascot.style.transform = `translate3d(0, ${railHeightRef.current * progress}px, 0)`;
   });
+
+  // A cada round o mascote muda de pose: guarda no Sobre, jab nos Projetos e
+  // vitória no Contato. Pose muda só na troca de seção, então é rara e pode
+  // ter um pouco de charme.
+  const round = sections.findIndex((section) => section.id === activeId);
+  useEffect(() => {
+    const fighter = fighterRef.current;
+    if (!fighter || reducedMotion) return;
+    const { upper, fore, body, trail, rearGuard, rearRaised, belt } = fighter;
+    const poseKey = ROUND_POSES[round] ?? "guard";
+    const pose = POSES[poseKey];
+    const champion = poseKey === "victory";
+
+    const tl = gsap.timeline();
+
+    // Fora do R3 o braço de trás volta à guarda e o cinturão some.
+    if (!champion) {
+      tl.set(rearRaised, { opacity: 0 }, 0)
+        .set(rearGuard, { opacity: 1 }, 0)
+        .to(belt, { opacity: 0, duration: 0.15 }, 0);
+    }
+
+    if (champion) {
+      // Campeão: os dois braços sobem em "V", o cinturão aparece e ele
+      // comemora com três pulinhos.
+      tl.set(rearGuard, { opacity: 0 }, 0)
+        .fromTo(rearRaised, { opacity: 1, rotation: -70 }, { rotation: 0, duration: 0.3, ease: "back.out(1.6)" }, 0)
+        .to([upper, fore], {
+          rotation: (i) => (i === 0 ? pose.upper : pose.fore),
+          duration: 0.3,
+          ease: "back.out(1.6)",
+        }, 0)
+        .fromTo(belt, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.1)
+        .to(body, { y: -14, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 5 }, 0.15);
+    } else if (poseKey === "jab") {
+      tl.to([upper, fore], { rotation: (i) => (i === 0 ? pose.upper : pose.fore), duration: 0.18, ease: "expo.out" })
+        .fromTo(trail, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 0.55, duration: 0.08, ease: "power2.out" }, 0)
+        .to(trail, { scaleX: 0.2, opacity: 0, duration: 0.14, ease: "power2.out" }, 0.08);
+    } else {
+      tl.to([upper, fore], {
+        rotation: (i) => (i === 0 ? pose.upper : pose.fore),
+        duration: 0.3,
+        ease: "power3.out",
+      });
+    }
+    return () => {
+      tl.kill();
+      gsap.set(body, { y: 0 });
+    };
+  }, [round, reducedMotion]);
 
   if (reducedMotion) return null;
 
@@ -97,7 +157,7 @@ export function ScrollProgressLine({
       ref={railRef}
       aria-hidden="true"
       className={cn(
-        "pointer-events-none fixed bottom-[22vh] right-8 top-[22vh] z-10 hidden w-px transition-opacity duration-500 lg:block",
+        "pointer-events-none fixed bottom-[22vh] right-16 top-[22vh] z-10 hidden w-px transition-opacity duration-500 lg:block",
         scrolled ? "opacity-100" : "opacity-0",
       )}
     >
@@ -116,12 +176,21 @@ export function ScrollProgressLine({
           y1="0"
           x2="0.5"
           y2="100%"
-          stroke="hsl(var(--foreground))"
+          stroke="hsl(var(--primary))"
           strokeWidth="1"
           strokeDasharray={railHeight || undefined}
           strokeDashoffset={railHeight || undefined}
         />
       </svg>
+
+      {/* Mascote: o lutador do hero em miniatura, de pé na ponta do traço,
+          virado para o conteúdo. O translate vem do callback de scroll. */}
+      {/* O trilho fica a 64px da borda para caber o lutador de 40px à direita. */}
+      <div ref={mascotRef} className="absolute left-[6px] top-0 will-change-transform">
+        <div className="-translate-y-full">
+          <Fighter ref={fighterRef} className="w-[40px]" />
+        </div>
+      </div>
 
       {sections.map((section, i) => {
         const isActive = section.id === activeId;
@@ -135,15 +204,18 @@ export function ScrollProgressLine({
             <span
               className={cn(
                 "mono whitespace-nowrap text-[10px] uppercase tracking-[0.18em] transition-colors duration-250",
-                isActive ? "text-foreground" : "text-dim",
+                isActive ? "text-primary" : "text-dim",
               )}
             >
-              {section.index} {section.label}
+              {/* Seções como rounds de uma luta: R1 · Sobre. */}
+              R{Number(section.index)} · {section.label}
             </span>
             <span
               className={cn(
                 "block h-[5px] w-[5px] rounded-full transition-colors duration-250",
-                isActive ? "bg-foreground" : "bg-border",
+                // A classe entra só quando a seção vira ativa, então o pulso
+                // roda uma vez a cada troca de round.
+                isActive ? "animate-marker-pulse bg-primary" : "bg-border",
               )}
             />
           </div>

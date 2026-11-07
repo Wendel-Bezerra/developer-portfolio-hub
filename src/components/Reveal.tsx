@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { useInView } from "@/hooks/useInView";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,6 +18,8 @@ export function Reveal({
   delay?: number;
 }) {
   const [ref, inView] = useInView<HTMLDivElement>();
+  // Movimento reduzido: só opacidade, sem o deslocamento vertical.
+  const reduced = usePrefersReducedMotion();
 
   return (
     <div
@@ -24,7 +27,9 @@ export function Reveal({
       className={cn(
         // fill-mode `both` é necessário por causa do delay: sem ele o bloco
         // apareceria opaco antes da animação começar.
-        inView ? "animate-fade-up [animation-fill-mode:both]" : "opacity-0",
+        inView
+          ? `${reduced ? "animate-fade-in" : "animate-fade-up"} [animation-fill-mode:both]`
+          : "opacity-0",
         className,
       )}
       style={inView && delay ? { animationDelay: `${delay}ms` } : undefined}

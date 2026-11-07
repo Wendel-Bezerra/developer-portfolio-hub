@@ -22,13 +22,14 @@ export function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between px-6 py-8 md:px-14 md:py-10">
+    // Com viewport-fit=cover a página vai até o notch: o topo afasta o conteúdo dele.
+    <header className="flex items-center justify-between px-6 pb-8 pt-[max(2rem,env(safe-area-inset-top))] md:px-14 md:py-10">
       <Link
         to={pathFor(lang, "home")}
         aria-label={t("nav.home")}
-        className="flex items-center gap-3 text-muted-foreground transition-colors duration-250 hover:text-foreground"
+        className="flex items-center gap-3 text-muted-foreground transition-colors duration-250 hover:text-primary"
       >
-        <LogoMark className="h-[26px] w-[26px] md:h-[30px] md:w-[30px]" />
+        <LogoMark className="h-[26px] w-[26px] text-primary md:h-[30px] md:w-[30px]" />
         <span className="mono text-xs md:text-[13px]">{PROFILE.handle}</span>
       </Link>
 
@@ -38,7 +39,7 @@ export function Header() {
           type="button"
           onClick={handleLanguageToggle}
           aria-label={t("nav.langAria")}
-          className="mono border-b border-border pb-0.5 text-xs text-muted-foreground transition-colors duration-250 hover:border-foreground hover:text-foreground md:text-[13px]"
+          className="mono border-b border-border pb-0.5 text-xs text-muted-foreground transition-colors duration-250 hover:border-primary hover:text-primary md:text-[13px]"
         >
           {langLabel}
         </button>

@@ -1,8 +1,9 @@
 /** Título e descrição vêm do i18n (projects.items.<key>); o resto é igual nos 3 idiomas. */
-export type ProjectKind = "site" | "code";
+/** "oss" é contribuição open source em projeto de terceiros; o link leva ao PR. */
+export type ProjectKind = "site" | "code" | "oss";
 
 export type Project = {
-  key: "despesas" | "facilize" | "ajb" | "travelTracker" | "betTracker";
+  key: "botCrossing" | "imperio" | "despesas" | "facilize" | "ajb" | "travelTracker" | "betTracker";
   year: string;
   tech: string;
   kind: ProjectKind;
@@ -10,6 +11,20 @@ export type Project = {
 };
 
 export const PROJECTS: Project[] = [
+  {
+    key: "botCrossing",
+    year: "2026",
+    tech: "JavaScript · Node.js · PowerShell · Windows",
+    kind: "oss",
+    url: "https://github.com/Station-Sciences/bot-crossing/pull/48",
+  },
+  {
+    key: "imperio",
+    year: "2026",
+    tech: "Next.js · React · TypeScript · Tailwind",
+    kind: "site",
+    url: "https://www.imperiodosamba.com.br/",
+  },
   {
     key: "despesas",
     year: "2026",
